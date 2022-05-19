@@ -26,7 +26,7 @@ A replacement of VRChat's default fallback robot avatars, this is a popular feat
 This version will utilize a different method of replacement that may be even more convenient anyways.
   
   
-## Better Trust
+## Better Trust (Collaborating With [Zen-VR](https://github.com/Zen-VR))
 Better Trust is a total overhaul for the VRChat Safety/Trust system, replacing it with a localized database for trust management.  
 This mod will allow users to specify what they consider is appropriate for trust based on the hours they spend with specific people or deprecate some ranks entirely.
   
