@@ -26,6 +26,12 @@ A replacement of VRChat's default fallback robot avatars, this is a popular feat
 This version will utilize a different method of replacement that may be even more convenient anyways.
   
   
+## Ranked Space  
+A mod to improve the usability of the Personal Space setting.  
+This mod will allow users to select personal space settings based on user rank, instance type, and if they are a friend.  
+*The mod will also be a general overhaul, expanding the available settings to include a distance selection and a fade option.*  
+
+  
 ## Custom Emojis
 A mod to allow the modification of the VRChat Emotes would let the user replace the emojis with custom images.
 ***This mod would not be able to add new emojis, only replace existing ones.***
