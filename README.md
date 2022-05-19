@@ -42,7 +42,7 @@ Interact with other users, explore the multiverse, or stare at mirrors and you w
 ***Welcome back to Runescape***  
   
   
-## VRCModManager (Personal Project, probably won't release)
+## VRCModManager (Awaiting Net6 ML Update)
 A base library for interacting with the game, allowing mods to be loaded, updated, and even unloaded without having to close the game.   
 The Repo manager would allow third-party repositories for other developers, encouraging the development of smaller-scale mods.    
 ***However, the opt-in process will warn users about the risks of running unverified code.***
