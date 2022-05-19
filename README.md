@@ -38,6 +38,7 @@ Interact with other users, explore the multiverse, or stare at mirrors and you w
 - World Events
 - A party system
 - Raid Bosses  
+- *Runescape Theme Constantly Plays* - Thank you Hordini  
 ***Welcome back to Runescape***  
   
   
