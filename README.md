@@ -17,7 +17,7 @@ A modification to bring back the beloved nameplates of 2018 while remaining comp
   
   
 ## NSFW Enforcer
-NSFW Detector is a detector for NSFW avatars (Through tags or NSFW objects), adding safety options per world and rank.  
+NSFW Enforcer is a detector for NSFW avatars (Through tags or NSFW objects), adding safety options per world and rank.  
 *The mod also may include the ability to flag NSFW avatars that have not flagged themselves as such*
   
   
