@@ -26,7 +26,7 @@ A replacement of VRChat's default fallback robot avatars, this is a popular feat
 This version will utilize a different method of replacement that may be even more convenient anyways.
   
   
-### Custom Emojis
+## Custom Emojis
 A mod to allow the modification of the VRChat Emotes would let the user replace the emojis with custom images.
 ***This mod would not be able to add new emojis, only replace existing ones.***
   
