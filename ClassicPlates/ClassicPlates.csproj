@@ -9,7 +9,9 @@
         <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
         <AssemblyOriginatorKeyFile>FS_Signed.snk</AssemblyOriginatorKeyFile>
         <PublicSign>false</PublicSign>
-		<VRChatPath>C:\Program Files (x86)\Steam\steamapps\common\VRChat</VRChatPath>
+        
+        <VRChatPath>X:\SteamLibrary\steamapps\common\VRChat</VRChatPath>
+    
     </PropertyGroup>
 
     <ItemGroup>
