@@ -19,13 +19,13 @@ internal static class AssetManager
     {
         if (_bundle is null)
         {
-            MelonLogger.Error("Failed to load Prefab: " + @object);
+            ClassicPlates.Error($"Failed to load Prefab: {@object}");
             throw new FileLoadException();
         }
         var go = _bundle.LoadAsset_Internal(@object, Il2CppType.Of<GameObject>()).Cast<GameObject>();
         go.hideFlags |= HideFlags.DontUnloadUnusedAsset;
         go.hideFlags = HideFlags.HideAndDontSave;
-        MelonDebug.Msg("Loaded Prefab: " + @object);
+        ClassicPlates.Debug($"Loaded Prefab: {@object}");
         return go;
     }
 
@@ -33,13 +33,13 @@ internal static class AssetManager
     {
         if (_bundle is null)
         {
-            MelonLogger.Error("Failed to load Sprite: " + sprite);
+            ClassicPlates.Error($"Failed to load Sprite: {sprite}");
             throw new FileLoadException();
         }
         var sprite2 = _bundle.LoadAsset_Internal(sprite, Il2CppType.Of<Sprite>()).Cast<Sprite>();
         sprite2.hideFlags |= HideFlags.DontUnloadUnusedAsset;
         sprite2.hideFlags = HideFlags.HideAndDontSave;
-        MelonDebug.Msg("Loaded Sprite: " + sprite);
+        ClassicPlates.Debug($"Loaded Sprite: {sprite}");
         return sprite2;
     }
 
@@ -130,12 +130,12 @@ internal static class AssetManager
             }
             catch (Exception e)
             {
-                MelonLogger.Error($"Nameplate Assets failed to load\n\n{e}");
+                ClassicPlates.Error($"Nameplate Assets failed to load\n\n{e}");
             }
         }
         else
         {
-            MelonLogger.Error("Stream is null, Nameplates cannot load");
+            ClassicPlates.Error("Stream is null, Nameplates cannot load");
         }
 
         yield break;
