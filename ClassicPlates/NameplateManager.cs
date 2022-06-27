@@ -82,12 +82,9 @@ public class NameplateManager
         {
             return nameplate;
         }
-        else
-        {
-            MelonDebug.Error("Nameplate does not exist in Dictionary for player: " +
-                              player._player.prop_APIUser_0.displayName);
-            return null;
-        }
+
+        ClassicPlates.DebugError($"Nameplate does not exist in Dictionary for player: {player._player.prop_APIUser_0.displayName}");
+        return null;
     }
 
     public OldNameplate? GetNameplate(string id)
@@ -96,11 +93,9 @@ public class NameplateManager
         {
             return nameplate;
         }
-        else
-        {
-            MelonDebug.Error("Nameplate does not exist in Dictionary for player: " + id);
-            return null;
-        }
+
+        ClassicPlates.DebugError($"Nameplate does not exist in Dictionary for player: {id}");
+        return null;
     }
 
     public void ClearNameplates()
@@ -144,7 +139,7 @@ public class NameplateManager
                 }
                 catch
                 {
-                    MelonLogger.Error("Failed to set player on nameplate");
+                    ClassicPlates.Error("Failed to set player on nameplate");
                 }
 
                 if (oldNameplate.player != null)
@@ -155,7 +150,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set name on nameplate");
+                        ClassicPlates.Error("Failed to set name on nameplate");
                     }
 
                     try
@@ -164,7 +159,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set status on nameplate");
+                        ClassicPlates.Error("Failed to set status on nameplate");
                     }
 
                     try
@@ -174,7 +169,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set rank on nameplate");
+                        ClassicPlates.Error("Failed to set rank on nameplate");
                     }
 
                     try
@@ -183,7 +178,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set friend status on nameplate");
+                        ClassicPlates.Error("Failed to set friend status on nameplate");
                     }
 
                     try
@@ -193,7 +188,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set master status on nameplate");
+                        ClassicPlates.Error("Failed to set master status on nameplate");
                     }
 
                     try
@@ -205,7 +200,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set user volume on nameplate");
+                        ClassicPlates.Error("Failed to set user volume on nameplate");
                     }
 
                     try
@@ -214,7 +209,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set profile picture on nameplate");
+                        ClassicPlates.Error("Failed to set profile picture on nameplate");
                     }
 
                     try
@@ -223,7 +218,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set quest status on nameplate");
+                        ClassicPlates.Error("Failed to set quest status on nameplate");
                     }
 
                     try
@@ -233,7 +228,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set vip status on nameplate");
+                        ClassicPlates.Error("Failed to set vip status on nameplate");
                     }
 
                     try
@@ -242,7 +237,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set local setting on nameplate");
+                        ClassicPlates.Error("Failed to set local setting on nameplate");
                     }
 
                     if (_enableDisableListener != null)
@@ -252,7 +247,7 @@ public class NameplateManager
                     }
                     else
                     {
-                        MelonLogger.Error("EnableDisableListener is null");
+                        ClassicPlates.Error("EnableDisableListener is null");
                     }
 
                     try
@@ -262,7 +257,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set avatar kind on nameplate");
+                        ClassicPlates.Error("Failed to set avatar kind on nameplate");
                     }
 
                     try
@@ -274,7 +269,7 @@ public class NameplateManager
                     }
                     catch
                     {
-                        MelonLogger.Error("Failed to set performance on nameplate");
+                        ClassicPlates.Error("Failed to set performance on nameplate");
                     }
 
                     try
@@ -299,7 +294,7 @@ public class NameplateManager
                         }
                         else
                         {
-                            MelonDebug.Msg("No Moderations for: " + player.field_Private_APIUser_0.id);
+                            ClassicPlates.Debug("No Moderations for: " + player.field_Private_APIUser_0.id);
                             oldNameplate.IsMuted = false;
                             oldNameplate.IsBlocked = false;
                         }
@@ -308,7 +303,7 @@ public class NameplateManager
                     {
                         oldNameplate.IsMuted = false;
                         oldNameplate.IsBlocked = false;
-                        MelonLogger.Error("Failed to set mute/block status on nameplate, defaulting to false");
+                        ClassicPlates.Error("Failed to set mute/block status on nameplate, defaulting to false");
                     }
                 }
                 else
@@ -319,12 +314,12 @@ public class NameplateManager
             }
             catch (Exception e)
             {
-                MelonLogger.Error("Unable to Initialize Nameplate: " + e);
+                ClassicPlates.Error("Unable to Initialize Nameplate: " + e);
             }
         }
         else
         {
-            MelonLogger.Error("Unable to Initialize Nameplate: Player is null");
+            ClassicPlates.Error("Unable to Initialize Nameplate: Player is null");
         }
     }
 
@@ -334,7 +329,7 @@ public class NameplateManager
         {
             if (_cachedImage.TryGetValue(url, out var tex))
             {
-                MelonDebug.Msg("Found Cached Image for: " + url);
+                ClassicPlates.Debug("Found Cached Image for: " + url);
             }
             else
             {
@@ -355,7 +350,7 @@ public class NameplateManager
                     try
                     {
                         //I do Dis
-                        MelonDebug.Msg($"Download Finished: {url}");
+                        ClassicPlates.Debug($"Download Finished: {url}");
                         tex = new Texture2D(2, 2)
                         {
                             hideFlags = HideFlags.DontUnloadUnusedAsset,
@@ -367,11 +362,11 @@ public class NameplateManager
                         // Compiles incorrectly if called as an extension. Why? Who knows
                         if (ImageConversion.LoadImage(tex, bytes))
                         {
-                            MelonDebug.Msg("Loading Using LoadImage...");
+                            ClassicPlates.Debug("Loading Using LoadImage...");
                         }
                         else
                         {
-                            MelonDebug.Msg("Loading using LoadRawTextureData...");
+                            ClassicPlates.Debug("Loading using LoadRawTextureData...");
                             tex.LoadRawTextureData(bytes);
                         }
 
@@ -379,12 +374,12 @@ public class NameplateManager
                     }
                     catch (Exception e)
                     {
-                        MelonLogger.Error(e.ToString());
+                        ClassicPlates.Error(e.ToString());
                     }
                 }
                 else
                 {
-                    MelonLogger.Error("Image Request Failed");
+                    ClassicPlates.Error("Image Request Failed");
                 }
 
                 http.Dispose();
@@ -394,18 +389,18 @@ public class NameplateManager
             {
                 image.texture = tex;
                 if (Settings.ShowIcon != null) image.transform.parent.gameObject.active = Settings.ShowIcon.Value;
-                MelonDebug.Msg("Applying Image");
+                ClassicPlates.Debug("Applying Image");
             }
             else
             {
-                MelonLogger.Error("Texture is Unreadable: " + url);
+                ClassicPlates.Error("Texture is Unreadable: " + url);
                 _cachedImage.Remove(url);
                 image.transform.parent.gameObject.active = false;
             }
         }
         else
         {
-            MelonLogger.Error("Image Cache is Null");
+            ClassicPlates.Error("Image Cache is Null");
         }
     }
 
@@ -430,7 +425,7 @@ public class NameplateManager
                     }
                     else
                     {
-                        MelonLogger.Error("Unable to Instantiate Nameplate: Nameplate is Null");
+                        ClassicPlates.Error("Unable to Instantiate Nameplate: Nameplate is Null");
                     }
                 }
                 else
@@ -448,7 +443,7 @@ public class NameplateManager
                     }
                     else
                     {
-                        MelonLogger.Error("Unable to Instantiate Nameplate: Nameplate is Null");
+                        ClassicPlates.Error("Unable to Instantiate Nameplate: Nameplate is Null");
                     }
                 }
 
@@ -473,12 +468,12 @@ public class NameplateManager
             }
             else
             {
-                MelonLogger.Error("Unable to Instantiate Nameplate: Player is Null");
+                ClassicPlates.Error("Unable to Instantiate Nameplate: Player is Null");
             }
         }
         else
         {
-            MelonLogger.Error("Unable to Initialize Nameplate: Settings are null");
+            ClassicPlates.Error("Unable to Initialize Nameplate: Settings are null");
         }
     }
 }

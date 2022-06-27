@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using ClassicPlates.Patching;
+using Il2CppSystem.Linq;
 using MelonLoader;
 using VRC;
 
@@ -14,8 +15,9 @@ namespace ClassicPlates;
 //TODO: Nameplate Stats Compatibility
 //TODO: TW/ReMod/BTK Compatibility
 //TODO: Hook into OnSocialRank change
-public class ClassicPlates : MelonMod
-{
+public class ClassicPlates : MelonMod {
+    private static MelonLogger.Instance _logger = new MelonLogger.Instance("ClassicNameplates");
+
     public static NameplateManager? NameplateManager;
 
     public override void OnApplicationStart()
@@ -75,8 +77,22 @@ public class ClassicPlates : MelonMod
         }
         else
         {
-            MelonDebug.Msg("Not in Room, clearing any straggler Nameplates");
+            Debug("Not in Room, clearing any straggler Nameplates");
             NameplateManager.ClearNameplates();
         }
+    }
+
+    internal static void Log(object msg) => _logger.Msg(msg);
+
+    internal static void Debug(object msg) {
+        if (MelonDebug.IsEnabled())
+            _logger.Msg(ConsoleColor.Cyan, msg);
+    }
+
+    internal static void Error(object obj) => _logger.Error(obj);
+
+    internal static void DebugError(object obj) {
+        if (MelonDebug.IsEnabled())
+            _logger.Error($"[DEBUG] {obj}");
     }
 }

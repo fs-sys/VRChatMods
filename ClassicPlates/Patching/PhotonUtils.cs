@@ -24,64 +24,64 @@ public static class PhotonUtils
             .TryCast<Il2CppSystem.Collections.Generic.Dictionary<byte, Object>>();
 
         var moderation = new Moderation();
-        MelonDebug.Msg("Handling Moderation Event...");
+        ClassicPlates.Debug("Handling Moderation Event...");
         if (moderationDict != null)
         {
             if (moderationDict[0].Unbox<byte>() != 21)
             {
-                MelonDebug.Msg("Redundant Moderation Event, Skipping...");
+                ClassicPlates.Debug("Redundant Moderation Event, Skipping...");
                 return;
             }
 
             if (moderationDict.ContainsKey(1))
             {
-                MelonDebug.Msg("Player Moderation Event...");
+                ClassicPlates.Debug("Player Moderation Event...");
 
                 moderation.Player = moderationDict[1].Unbox<int>();
-                MelonDebug.Msg("Player: " + moderation.Player);
+                ClassicPlates.Debug("Player: " + moderation.Player);
 
                 if (moderationDict.ContainsKey(10))
                 {
                     var block = moderationDict[10].Unbox<bool>();
                     moderation.Blocked = block;
-                    MelonDebug.Msg(
+                    ClassicPlates.Log(
                         $"Block Status: {(moderation.Blocked.Value ? "Blocked" : "Unblocked")}");
                 }
                 else
                 {
-                    MelonDebug.Msg("Block Status: Null");
+                    ClassicPlates.Debug("Block Status: Null");
                 }
 
                 if (moderationDict.ContainsKey(11))
                 {
                     var mute = moderationDict[11].Unbox<bool>();
                     moderation.Muted = mute;
-                    MelonDebug.Msg(
+                    ClassicPlates.Log(
                         $"Mute Status: {(moderation.Muted.Value ? "Muted" : "Unmuted")}");
                 }
                 else
                 {
-                    MelonDebug.Msg("Mute Status: Null");
+                    ClassicPlates.Debug("Mute Status: Null");
                 }
                 ApplyModerations(moderation);
             }
             else
             {
-                MelonDebug.Msg("Cached Moderation Event...");
+                ClassicPlates.Debug("Cached Moderation Event...");
                 var blocks = Il2CppArrayBase<int>.WrapNativeGenericArrayPointer(moderationDict[10].Pointer);
                 var mutes = Il2CppArrayBase<int>.WrapNativeGenericArrayPointer(moderationDict[11].Pointer);
 
                 if (blocks is {Length: > 0})
                     foreach (var i in blocks)
                     {
-                        MelonDebug.Msg($"Queued Block: {i}");
+                        ClassicPlates.Debug($"Queued Block: {i}");
                         QueuedBlocks.Add(i);
                     }
 
                 if (mutes is {Length: > 0})
                     foreach (var i in mutes)
                     {
-                        MelonDebug.Msg($"Queued Mute: {i}");
+                        ClassicPlates.Debug($"Queued Mute: {i}");
                         QueuedMutes.Add(i);
                     }
                 
@@ -90,7 +90,7 @@ public static class PhotonUtils
         }
         else
         {
-            MelonDebug.Error("Moderation Dictionary is null, Skipping...");
+            ClassicPlates.DebugError("Moderation Dictionary is null, Skipping...");
         }
     }
     
@@ -114,7 +114,7 @@ public static class PhotonUtils
                         var key = intArr.Last();
                         if (!intArr.Remove(key))
                         {
-                            MelonLogger.Error("Failed to remove local key from interaction array");
+                            ClassicPlates.Error("Failed to remove local key from interaction array");
                         }
 
                         if (intArr.Contains(localID))
@@ -124,12 +124,12 @@ public static class PhotonUtils
                     }
                     else
                     {
-                        MelonDebug.Msg("Interaction Array is too short, Skipping...");
+                        ClassicPlates.Debug("Interaction Array is too short, Skipping...");
                     }
                 }
                 else
                 {
-                    MelonLogger.Error("Player Interaction Array is null, Skipping...");
+                    ClassicPlates.Error("Player Interaction Array is null, Skipping...");
                 }
             }
 
@@ -141,7 +141,7 @@ public static class PhotonUtils
                     if (plate == null) continue;
                     if (plate.player == null) continue;
                     var isInteractable = interactions.Contains(plate.player.prop_Int32_0);
-                    MelonDebug.Msg(
+                    ClassicPlates.Debug(
                         $"User: {plate.player.field_Private_APIUser_0.displayName} Interaction: {isInteractable}");
                     plate.Interactable = isInteractable;
                 }
@@ -153,7 +153,7 @@ public static class PhotonUtils
         }
         else
         {
-            MelonLogger.Error("Interaction Array is null, Skipping...");
+            ClassicPlates.Error("Interaction Array is null, Skipping...");
         }
     }
 
@@ -170,7 +170,7 @@ public static class PhotonUtils
             if (plate == null) continue;
             if (plate.player == null) continue;
             var isInteractable = interactions.Contains(plate.player.prop_Int32_0);
-            MelonDebug.Msg($"User: {plate.player.field_Private_APIUser_0.displayName} Interaction: {isInteractable}");
+            ClassicPlates.Debug($"User: {plate.player.field_Private_APIUser_0.displayName} Interaction: {isInteractable}");
             plate.Interactable = isInteractable;
         }
     }
@@ -208,11 +208,11 @@ public static class PhotonUtils
                                 {
                                     var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
 
-                                    MelonDebug.Msg("Applying Moderation for Player: " + cachedPlayer.ID);
+                                    ClassicPlates.Debug("Applying Moderation for Player: " + cachedPlayer.ID);
                                     if (plate == null || moderation.Blocked == null || moderation.Muted == null)
                                         return;
-                                    MelonDebug.Msg("Block Status: " + moderation.Blocked.Value);
-                                    MelonDebug.Msg("Mute Status: " + moderation.Muted.Value);
+                                    ClassicPlates.Debug("Block Status: " + moderation.Blocked.Value);
+                                    ClassicPlates.Debug("Mute Status: " + moderation.Muted.Value);
 
                                     plate.IsBlocked = moderation.Blocked.Value;
                                     plate.IsMutedBy = moderation.Muted.Value;
@@ -228,28 +228,28 @@ public static class PhotonUtils
                                     }
                                     else
                                     {
-                                        MelonDebug.Msg("Moderation is empty, skipping...");
+                                        ClassicPlates.Debug("Moderation is empty, skipping...");
                                     }
                                 }
                             }
                             else
                             {
-                                MelonLogger.Error("Failed to get Photon Player for Moderation");
+                                ClassicPlates.Error("Failed to get Photon Player for Moderation");
                             }
                         }
                         else
                         {
-                            MelonLogger.Error("Failed to get Nameplate Manager");
+                            ClassicPlates.Error("Failed to get Nameplate Manager");
                         }
                     }
                     else
                     {
-                        MelonLogger.Error("Failed to get Player for Moderation");
+                        ClassicPlates.Error("Failed to get Player for Moderation");
                     }
                 }
                 else
                 {
-                    MelonDebug.Msg("Room was null, caching moderation...");
+                    ClassicPlates.Debug("Room was null, caching moderation...");
                     var player = GetPhotonPlayer(moderation.Player.Value);
                     if (player != null)
                     {
@@ -257,18 +257,18 @@ public static class PhotonUtils
                     }
                     else
                     {
-                        MelonLogger.Error("Unable to Cache Moderation, Photon Player was null");
+                        ClassicPlates.Error("Unable to Cache Moderation, Photon Player was null");
                     }
                 }
             }
             else
             {
-                MelonLogger.Error("Unable to Cache Moderation, Player was null");
+                ClassicPlates.Error("Unable to Cache Moderation, Player was null");
             }
         }
         else
         {
-            MelonLogger.Error("Unable to Cache Moderation, Moderation was null");
+            ClassicPlates.Error("Unable to Cache Moderation, Moderation was null");
         }
     }
 
@@ -277,7 +277,7 @@ public static class PhotonUtils
         if(ClassicPlates.NameplateManager == null) {return;}
         if (!(QueuedBlocks.Count > 0 | QueuedMutes.Count > 0))
         {
-            MelonDebug.Msg("No Queued Moderations");
+            ClassicPlates.Debug("No Queued Moderations");
             return;
         }
 
@@ -288,19 +288,19 @@ public static class PhotonUtils
                 if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID))
                 {
                     var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
-                    MelonDebug.Msg("Applying Queued Mute for Player: " + cachedPlayer.ID);
+                    ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.ID);
 
                     if (plate != null) plate.IsMutedBy = true;
                 }
                 else
                 {
-                    MelonDebug.Msg("Nameplate not found, Queuing Mute...");
+                    ClassicPlates.Debug("Nameplate not found, Queuing Mute...");
                     MelonCoroutines.Start(QueueModeration(cachedPlayer));
                 }
             }
             else
             {
-                MelonLogger.Error("Failed to Apply Moderation, Player was Null");
+                ClassicPlates.Error("Failed to Apply Moderation, Player was Null");
             }
         }
 
@@ -311,20 +311,20 @@ public static class PhotonUtils
                 if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID))
                 {
                     var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
-                    MelonDebug.Msg("Applying Queued Block for Player: " + cachedPlayer.ID);
+                    ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.ID);
 
                     if (plate != null)
                         plate.IsBlocked = true;
                 }
                 else
                 {
-                    MelonDebug.Msg("Nameplate not found, Queuing Block...");
+                    ClassicPlates.Debug("Nameplate not found, Queuing Block...");
                     MelonCoroutines.Start(QueueModeration(cachedPlayer, true));
                 }
             }
             else
             {
-                MelonLogger.Error("Failed to Apply Moderation, Player was Null");
+                ClassicPlates.Error("Failed to Apply Moderation, Player was Null");
             }
         }
 
@@ -340,14 +340,14 @@ public static class PhotonUtils
         
         if (muted)
         {
-            MelonDebug.Msg("Applying Queued Mute for Player: " + cachedPlayer.ID);
+            ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.ID);
 
             if (plate != null) plate.IsMutedBy = true;
         }
         
         if (blocked)
         {
-            MelonDebug.Msg("Applying Queued Block for Player: " + cachedPlayer.ID);
+            ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.ID);
 
             if (plate != null)
                 plate.IsBlocked = true;
@@ -452,7 +452,7 @@ public static class PhotonUtils
 
             return photonPlayer;
         }
-        MelonLogger.Error("Player Hashtable is Null");
+        ClassicPlates.Error("Player Hashtable is Null");
         return null;
     }
 }

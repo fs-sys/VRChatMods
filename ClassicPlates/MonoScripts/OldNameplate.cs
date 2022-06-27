@@ -421,7 +421,7 @@ public class OldNameplate : MonoBehaviour
                 }
                 default:
                 {
-                    MelonLogger.Error("Unknown performance rating: " + _performance);
+                    ClassicPlates.Error("Unknown performance rating: " + _performance);
                     break;
                 }
             }
@@ -436,7 +436,7 @@ public class OldNameplate : MonoBehaviour
             _avatarKind = value;
             if (SpriteDict == null || _badgeFallback == null || _badgePerformance == null ||
                 Settings.ShowFallback == null || Settings.ShowPerformance == null) return;
-            if (player != null) MelonDebug.Msg($"{player.prop_APIUser_0.displayName}'s Avatar kind: " + _avatarKind);
+            if (player != null) ClassicPlates.Debug($"{player.prop_APIUser_0.displayName}'s Avatar kind: " + _avatarKind);
             switch (_avatarKind)
             {
                 case AvatarKind.Undefined:
@@ -494,7 +494,7 @@ public class OldNameplate : MonoBehaviour
 
                 default:
                 {
-                    MelonLogger.Error("Unknown avatar kind: " + _avatarKind);
+                    ClassicPlates.Error("Unknown avatar kind: " + _avatarKind);
                     break;
                 }
             }
@@ -662,12 +662,12 @@ public class OldNameplate : MonoBehaviour
                 if (_constraint == null)
                 {
                     _constraint = Nameplate!.AddComponent<PositionConstraint>();
-                    MelonLogger.Error("Constraint is null, forcefully adding it.");
+                    ClassicPlates.Error("Constraint is null, forcefully adding it.");
                 }
 
                 if (_constraint.sourceCount > 1)
                 {
-                    MelonLogger.Error("Constraint.sourceCount is greater than 1, resetting...");
+                    ClassicPlates.Error("Constraint.sourceCount is greater than 1, resetting...");
                     _constraint.SetSources(null);
                 }
 
@@ -675,7 +675,7 @@ public class OldNameplate : MonoBehaviour
                 {
                     if (_constraint.GetSource(0).sourceTransform == null)
                     {
-                        MelonDebug.Msg("Removing Null Constraint Source");
+                        ClassicPlates.Debug("Removing Null Constraint Source");
                         _constraint.RemoveSource(0);
                     }
                 }
@@ -691,7 +691,7 @@ public class OldNameplate : MonoBehaviour
                         });
                     else
                     {
-                        MelonLogger.Error("Could not create constraint, player is null.");
+                        ClassicPlates.Error("Could not create constraint, player is null.");
                     }
                 }
             }
@@ -746,7 +746,7 @@ public class OldNameplate : MonoBehaviour
                     {
                         PlateColor = Color.green;
                         Settings.PlateColor.Value = "#00FF00";
-                        Debug.LogError("Invalid color string for nameplate color.");
+                        ClassicPlates.DebugError("Invalid color string for nameplate color.");
                     }
                 }
             }
@@ -766,7 +766,7 @@ public class OldNameplate : MonoBehaviour
                     {
                         NameColor = Color.white;
                         Settings.NameColor.Value = "#FFFFFF";
-                        Debug.LogError("Invalid color string for name color.");
+                        ClassicPlates.DebugError("Invalid color string for name color.");
                     }
                 }
             }
@@ -812,14 +812,14 @@ public class OldNameplate : MonoBehaviour
 
                 if (IsLocal)
                 {
-                    MelonDebug.Msg("Local Player");
+                    ClassicPlates.Debug("Local Player");
                     if (Nameplate != null) Nameplate.active = false;
                 }
             }
         }
         catch (Exception e)
         {
-            MelonLogger.Error("Unable to Apply Nameplate Settings: " + e);
+            ClassicPlates.Error("Unable to Apply Nameplate Settings: " + e);
         }
     }
 

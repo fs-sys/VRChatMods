@@ -27,7 +27,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -38,7 +38,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -49,7 +49,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -60,7 +60,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -73,7 +73,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -88,7 +88,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -99,7 +99,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         //TODO: Add Avatar Loading Bar
@@ -113,18 +113,17 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }*/
-        
-        try
-        {
+
+        try {
             _instance.Patch(typeof(FriendsListManager).GetMethod("Method_Private_Void_String_0"), new HarmonyMethod(
                 typeof(Patching).GetMethod(nameof(OnUnfriend),
                     BindingFlags.NonPublic | BindingFlags.Static)));
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -135,7 +134,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
 
         try
@@ -148,7 +147,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
         
         try
@@ -161,7 +160,7 @@ internal static class Patching
         }
         catch (Exception e)
         {
-            MelonLogger.Error(e);
+            ClassicPlates.Error(e);
         }
     }
 
@@ -204,7 +203,7 @@ internal static class Patching
         }
         else
         {
-            MelonLogger.Error("Master Change Detected, but player was null");
+            ClassicPlates.Error("Master Change Detected, but player was null");
         }
     }
 
@@ -223,21 +222,21 @@ internal static class Patching
     private static void OnPlayerModerationSend1(string __1, ApiPlayerModeration.ModerationType __2)
     {
         if (__1 == null) return;
-        MelonDebug.Msg("PlayerModerationSend1");
+        ClassicPlates.Debug("PlayerModerationSend1");
         UpdateModeration(__1, __2);
     }
     
     private static void OnPlayerModerationSend2(string __0, ApiPlayerModeration.ModerationType __1)
     {
         if (__0 == null) return;
-        MelonDebug.Msg("OnPlayerModerationSend2");
+        ClassicPlates.Debug("OnPlayerModerationSend2");
         UpdateModeration(__0, __1);
     }
     
     private static void OnPlayerModerationRemove(string __0, ApiPlayerModeration.ModerationType __1)
     {
         if (__0 == null) return;
-        MelonDebug.Msg("OnPlayerModerationRemove");
+        ClassicPlates.Debug("OnPlayerModerationRemove");
         RemoveModeration(__0, __1);
     }
     
@@ -258,18 +257,18 @@ internal static class Patching
     private static void OnNameplateModeUpdate(/*VRC.NameplateManager __instance,*/ VRC.NameplateManager.NameplateMode __0)
     {
         Settings.NameplateMode = __0;
-        MelonDebug.Msg("OnNameplateModeUpdate: " + __0);
+        ClassicPlates.Debug("OnNameplateModeUpdate: " + __0);
     }
     
     private static void OnStatusModeUpdate(/*VRC.NameplateManager __instance,*/ VRC.NameplateManager.StatusMode __0)
     {
-        MelonDebug.Msg("OnStatusModeUpdate: " + __0);
+        ClassicPlates.Debug("OnStatusModeUpdate: " + __0);
         Settings.StatusMode = __0;
     }
 
     private static void RemoveModeration(string id, ApiPlayerModeration.ModerationType type)
     {
-        MelonLogger.Msg("Moderation Removed for user: " + id + " | Type: " + type);
+        ClassicPlates.Log("Moderation Removed for user: " + id + " | Type: " + type);
 
         if (ClassicPlates.NameplateManager == null) return;
         var oldNameplate = ClassicPlates.NameplateManager.GetNameplate(id);
@@ -318,7 +317,7 @@ internal static class Patching
 
     private static void UpdateModeration(string id, ApiPlayerModeration.ModerationType type)
     {
-        MelonLogger.Msg("Moderation Sent for user: " + id + " | Type: " + type);
+        ClassicPlates.Log("Moderation Sent for user: " + id + " | Type: " + type);
 
         if (ClassicPlates.NameplateManager == null) return;
         var oldNameplate = ClassicPlates.NameplateManager.GetNameplate(id);
