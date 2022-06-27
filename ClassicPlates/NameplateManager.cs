@@ -1,6 +1,5 @@
 ﻿using ClassicPlates.MonoScripts;
 using System.Collections;
-using MelonLoader;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC;
@@ -133,112 +132,36 @@ public class NameplateManager
         {
             try
             {
-                try
-                {
-                    oldNameplate.player = player;
-                }
-                catch
-                {
-                    ClassicPlates.Error("Failed to set player on nameplate");
-                }
+                oldNameplate.player = player;
 
                 if (oldNameplate.player != null)
                 {
-                    try
-                    {
-                        oldNameplate.Name = player.field_Private_APIUser_0.displayName;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set name on nameplate");
-                    }
+                    oldNameplate.Name = player.field_Private_APIUser_0.displayName;
+                    
+                    oldNameplate.Status = player.field_Private_APIUser_0.statusDescriptionDisplayString;
+                    
+                    oldNameplate.Rank =
+                        VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
+                    
+                    oldNameplate.IsFriend = player.field_Private_APIUser_0.isFriend;
+                    
+                    oldNameplate.IsMaster = player.field_Private_VRCPlayerApi_0.isMaster;
+                    
+                    ClassicPlates.NameplateManager!._masterClient = player.field_Private_APIUser_0.id;
+                    
+                    //Getting if this value has changed.
+                    //uSpeaker.NativeMethodInfoPtr_Method_Public_Single_1
+                    //Have fun future me, it's your favorite thing, native patching :D
+                    oldNameplate.UserVolume = player.prop_USpeaker_0.field_Private_Single_1;
+                    
+                    oldNameplate.ProfilePicture = player.field_Private_APIUser_0.userIcon;
+                    
+                    oldNameplate.IsQuest = player.field_Private_APIUser_0._last_platform.ToLower() == "android";
+                    
+                    oldNameplate.IsVip = player.field_Private_VRCPlayerApi_0.isModerator |
+                                         player.field_Private_VRCPlayerApi_0.isSuper;
 
-                    try
-                    {
-                        oldNameplate.Status = player.field_Private_APIUser_0.statusDescriptionDisplayString;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set status on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.Rank =
-                            VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set rank on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.IsFriend = player.field_Private_APIUser_0.isFriend;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set friend status on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.IsMaster = player.field_Private_VRCPlayerApi_0.isMaster;
-                        ClassicPlates.NameplateManager!._masterClient = player.field_Private_APIUser_0.id;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set master status on nameplate");
-                    }
-
-                    try
-                    {
-                        //Getting if this value has changed.
-                        //uSpeaker.NativeMethodInfoPtr_Method_Public_Single_1
-                        //Have fun future me, it's your favorite thing, native patching :D
-                        oldNameplate.UserVolume = player.prop_USpeaker_0.field_Private_Single_1;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set user volume on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.ProfilePicture = player.field_Private_APIUser_0.userIcon;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set profile picture on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.IsQuest = player.field_Private_APIUser_0._last_platform.ToLower() == "android";
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set quest status on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.IsVip = player.field_Private_VRCPlayerApi_0.isModerator |
-                                             player.field_Private_VRCPlayerApi_0.isSuper;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set vip status on nameplate");
-                    }
-
-                    try
-                    {
-                        oldNameplate.IsLocal = player.field_Private_VRCPlayerApi_0.isLocal;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set local setting on nameplate");
-                    }
+                    oldNameplate.IsLocal = player.field_Private_VRCPlayerApi_0.isLocal;
 
                     if (_enableDisableListener != null)
                     {
@@ -249,61 +172,38 @@ public class NameplateManager
                     {
                         ClassicPlates.Error("EnableDisableListener is null");
                     }
+                    
+                    oldNameplate.AvatarKind =
+                        player._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_AvatarKind_0;
 
-                    try
-                    {
-                        oldNameplate.AvatarKind =
-                            player._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_AvatarKind_0;
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set avatar kind on nameplate");
-                    }
+                    oldNameplate.Performance =
+                        oldNameplate.player._vrcplayer.field_Private_VRCAvatarManager_0
+                            .field_Private_AvatarPerformanceStats_0
+                            .GetPerformanceRatingForCategory(AvatarPerformanceCategory.Overall);
 
-                    try
+                    if (ModerationManager.field_Private_Static_ModerationManager_0
+                        .field_Private_Dictionary_2_String_List_1_ApiPlayerModeration_0
+                        .ContainsKey(player.field_Private_APIUser_0.id))
                     {
-                        oldNameplate.Performance =
-                            oldNameplate.player._vrcplayer.field_Private_VRCAvatarManager_0
-                                .field_Private_AvatarPerformanceStats_0
-                                .GetPerformanceRatingForCategory(AvatarPerformanceCategory.Overall);
-                    }
-                    catch
-                    {
-                        ClassicPlates.Error("Failed to set performance on nameplate");
-                    }
-
-                    try
-                    {
-                        if (ModerationManager.field_Private_Static_ModerationManager_0
-                            .field_Private_Dictionary_2_String_List_1_ApiPlayerModeration_0
-                            .ContainsKey(player.field_Private_APIUser_0.id))
+                        var moderationList =
+                            ModerationManager.field_Private_Static_ModerationManager_0
+                                .field_Private_Dictionary_2_String_List_1_ApiPlayerModeration_0[
+                                    player.field_Private_APIUser_0.id];
+                        var moderation = new List<ApiPlayerModeration.ModerationType>();
+                        foreach (var m in moderationList)
                         {
-                            var moderationList =
-                                ModerationManager.field_Private_Static_ModerationManager_0
-                                    .field_Private_Dictionary_2_String_List_1_ApiPlayerModeration_0[
-                                        player.field_Private_APIUser_0.id];
-                            var moderations = new List<ApiPlayerModeration.ModerationType>();
-                            foreach (var m in moderationList)
-                            {
-                                moderations.Add(m.moderationType);
-                            }
+                            moderation.Add(m.moderationType);
+                        }
 
-                            oldNameplate.IsMuted = !moderations.Contains(ApiPlayerModeration.ModerationType.Unmute) &&
-                                                   moderations.Contains(ApiPlayerModeration.ModerationType.Mute);
-                            oldNameplate.IsBlocked = moderations.Contains(ApiPlayerModeration.ModerationType.Block);
-                        }
-                        else
-                        {
-                            ClassicPlates.Debug("No Moderations for: " + player.field_Private_APIUser_0.id);
-                            oldNameplate.IsMuted = false;
-                            oldNameplate.IsBlocked = false;
-                        }
+                        oldNameplate.IsMuted = !moderation.Contains(ApiPlayerModeration.ModerationType.Unmute) &&
+                                               moderation.Contains(ApiPlayerModeration.ModerationType.Mute);
+                        oldNameplate.IsBlocked = moderation.Contains(ApiPlayerModeration.ModerationType.Block);
                     }
-                    catch
+                    else
                     {
+                        ClassicPlates.Debug("No Moderations for: " + player.field_Private_APIUser_0.id);
                         oldNameplate.IsMuted = false;
                         oldNameplate.IsBlocked = false;
-                        ClassicPlates.Error("Failed to set mute/block status on nameplate, defaulting to false");
                     }
                 }
                 else
@@ -314,11 +214,15 @@ public class NameplateManager
             }
             catch (Exception e)
             {
+                oldNameplate.Name = "||Error||";
+                oldNameplate.Status = "||Failed to load||";
                 ClassicPlates.Error("Unable to Initialize Nameplate: " + e);
             }
         }
         else
         {
+            oldNameplate.Name = "||Error||";
+            oldNameplate.Status = "||Failed to load||";
             ClassicPlates.Error("Unable to Initialize Nameplate: Player is null");
         }
     }

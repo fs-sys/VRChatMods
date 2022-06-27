@@ -38,7 +38,7 @@ public static class NetworkManagerHooks
 
     private static void OnPlayerJoin(Player plr)
     {
-        PhotonUtils.ApplyModerations(plr.prop_String_0);
+        PhotonUtils.ApplyModeration(plr.prop_String_0);
     }
 
     private static void OnPlayerLeft(Player plr)

@@ -63,7 +63,7 @@ public static class PhotonUtils
                 {
                     ClassicPlates.Debug("Mute Status: Null");
                 }
-                ApplyModerations(moderation);
+                ApplyModeration(moderation);
             }
             else
             {
@@ -175,16 +175,16 @@ public static class PhotonUtils
         }
     }
 
-    public static void ApplyModerations(string id)
+    public static void ApplyModeration(string id)
     {
         if (!string.IsNullOrEmpty(id) && CachedModeration.TryGetValue(id, out var moderation))
         {
-            ApplyModerations(moderation);
+            ApplyModeration(moderation);
             CachedModeration.Remove(id);
         }
     }
 
-    private static void ApplyModerations(Moderation moderation)
+    private static void ApplyModeration(Moderation moderation)
     {
         if (moderation != null)
         {

@@ -3,7 +3,6 @@ using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using ExitGames.Client.Photon;
 using HarmonyLib;
-using MelonLoader;
 using Photon.Realtime;
 using VRC.Core;
 using VRC.Management;

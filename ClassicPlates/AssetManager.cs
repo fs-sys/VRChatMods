@@ -11,7 +11,7 @@ internal static class AssetManager
 {
     internal static GameObject? Nameplate;
     private static AssetBundle? _bundle;
-    public static readonly Dictionary<string, Sprite>? SpriteDict = new Dictionary<string, Sprite>();
+    public static readonly Dictionary<string, Sprite>? SpriteDict = new();
     public static Il2CppReferenceArray<Sprite>? SpeakingSprites;
     public static Il2CppReferenceArray<Sprite>? MutedSprites;
 

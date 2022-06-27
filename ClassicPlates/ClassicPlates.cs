@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using ClassicPlates.Patching;
-using Il2CppSystem.Linq;
 using MelonLoader;
 using VRC;
 
@@ -16,7 +15,7 @@ namespace ClassicPlates;
 //TODO: TW/ReMod/BTK Compatibility
 //TODO: Hook into OnSocialRank change
 public class ClassicPlates : MelonMod {
-    private static MelonLogger.Instance _logger = new MelonLogger.Instance("ClassicNameplates");
+    private static readonly MelonLogger.Instance Logger = new("ClassicNameplates");
 
     public static NameplateManager? NameplateManager;
 
@@ -82,17 +81,17 @@ public class ClassicPlates : MelonMod {
         }
     }
 
-    internal static void Log(object msg) => _logger.Msg(msg);
+    internal static void Log(object msg) => Logger.Msg(msg);
 
     internal static void Debug(object msg) {
         if (MelonDebug.IsEnabled())
-            _logger.Msg(ConsoleColor.Cyan, msg);
+            Logger.Msg(ConsoleColor.Cyan, msg);
     }
 
-    internal static void Error(object obj) => _logger.Error(obj);
+    internal static void Error(object obj) => Logger.Error(obj);
 
     internal static void DebugError(object obj) {
         if (MelonDebug.IsEnabled())
-            _logger.Error($"[DEBUG] {obj}");
+            Logger.Error($"[DEBUG] {obj}");
     }
 }
