@@ -12,7 +12,8 @@ A modification to bring back the beloved nameplates of 2018 while remaining comp
 
 ### Compatability Notes for Other Modders
 - Nameplates have a master detector built into them, showing up as a crown.  
-- Nameplates will have ease of implementation features, such as badge instantiation, native recoloring, and name modification.  
+- Nameplates will have ease of implementation features, such as badge instantiation, native recoloring, and name modification.
+> WIP currently, compatibility will be worked on as I continue to develop this mod. For now users can disable nameplates to have incompatible mod features.
 - ***If you would like me to add anything, please send me a message on discord or submit an issue request.***
   
   
@@ -24,12 +25,7 @@ NSFW Enforcer is a detector for NSFW avatars (Through tags or NSFW objects), add
 ## Custom Fallback
 A replacement of VRChat's default fallback robot avatars, this is a popular feature in malicious/unverified mods. However, those rely on downloaded VRCA files.  
 This version will utilize a different method of replacement that may be even more convenient anyways.
-  
-  
-## Ranked Space  
-A mod to improve the usability of the Personal Space setting.  
-This mod will allow users to select personal space settings based on user rank, instance type, and if they are a friend.  
-*The mod will also be a general overhaul, expanding the available settings to include a distance selection and a fade option.*  
+> Will probably have to take over Boothing in order to release, even recoding from scratch
 
   
 ## Custom Emojis
