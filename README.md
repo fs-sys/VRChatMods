@@ -1,6 +1,3 @@
-# VRChatMods
-A compilation of all my mods. Released or Planned
-
 # Released Mods
 ## Classic Plates
 A modification to bring back the beloved nameplates of 2018 while remaining compatible with modern features.
