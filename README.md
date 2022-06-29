@@ -14,6 +14,8 @@ A modification to bring back the beloved nameplates of 2018 while remaining comp
 > WIP currently, compatibility will be worked on as I continue to develop this mod. For now users can disable nameplates to have incompatible mod features.
 - ***If you would like me to add anything, please send me a message on discord or submit an issue request.***
 
+
+
 # Planned Mods
 ## NSFW Enforcer
 NSFW Enforcer is a detector for NSFW avatars (Through tags or NSFW objects), adding safety options per world and rank.  
