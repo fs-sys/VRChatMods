@@ -85,7 +85,7 @@ public static class PhotonUtils
                         QueuedMutes.Add(i);
                     }
                 
-                ApplyCachedModerations();
+                ApplyCachedModeration();
             }
         }
         else
@@ -272,7 +272,7 @@ public static class PhotonUtils
         }
     }
 
-    private static void ApplyCachedModerations()
+    private static void ApplyCachedModeration()
     {
         if(ClassicPlates.NameplateManager == null) {return;}
         if (!(QueuedBlocks.Count > 0 | QueuedMutes.Count > 0))
