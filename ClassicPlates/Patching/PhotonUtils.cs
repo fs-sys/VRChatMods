@@ -44,7 +44,7 @@ public static class PhotonUtils
                 {
                     var block = moderationDict[10].Unbox<bool>();
                     moderation.Blocked = block;
-                    ClassicPlates.Log(
+                    ClassicPlates.Debug(
                         $"Block Status: {(moderation.Blocked.Value ? "Blocked" : "Unblocked")}");
                 }
                 else
@@ -56,7 +56,7 @@ public static class PhotonUtils
                 {
                     var mute = moderationDict[11].Unbox<bool>();
                     moderation.Muted = mute;
-                    ClassicPlates.Log(
+                    ClassicPlates.Debug(
                         $"Mute Status: {(moderation.Muted.Value ? "Muted" : "Unmuted")}");
                 }
                 else

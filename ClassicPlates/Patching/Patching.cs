@@ -196,7 +196,7 @@ internal static class Patching
 
     private static void RemoveModeration(string id, ApiPlayerModeration.ModerationType type)
     {
-        ClassicPlates.Log("Moderation Removed for user: " + id + " | Type: " + type);
+        ClassicPlates.Debug("Moderation Removed for user: " + id + " | Type: " + type);
 
         if (ClassicPlates.NameplateManager == null) return;
         var oldNameplate = ClassicPlates.NameplateManager.GetNameplate(id);
@@ -245,7 +245,7 @@ internal static class Patching
 
     private static void UpdateModeration(string id, ApiPlayerModeration.ModerationType type)
     {
-        ClassicPlates.Log("Moderation Sent for user: " + id + " | Type: " + type);
+        ClassicPlates.Debug("Moderation Sent for user: " + id + " | Type: " + type);
 
         if (ClassicPlates.NameplateManager == null) return;
         var oldNameplate = ClassicPlates.NameplateManager.GetNameplate(id);
