@@ -1,9 +1,11 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
+using Il2CppSystem.Linq;
 using MelonLoader;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using UnityEngine.Animations;
+using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using VRC;
 using VRC.SDKBase.Validation.Performance;
@@ -588,7 +590,7 @@ public class OldNameplate : MonoBehaviour
                 {
                     if (_voiceBubble != null)
                     {
-                        _voiceBubble.gameObject.active = false;
+                        _voiceBubble.gameObject.active = IsMuted;
 
                         if (_mainPlate != null && _mainPlate.gameObject.active)
                         {
@@ -731,42 +733,54 @@ public class OldNameplate : MonoBehaviour
                 if (_iconInteract != null)
                     _iconInteract.gameObject.active = Settings.ShowInteraction.Value;
 
-            if (Settings.PlateColor != null && Settings.PlateColorByRank != null)
+            if (Settings.PlateColor != null && Settings.PlateColorByRank != null && Settings.BtkColorPlates != null)
             {
-                if (Settings.PlateColorByRank.Value)
+                if (Settings.BtkColorPlates.Value)
                 {
-                    if (player != null)
-                        PlateColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                    if (player != null) PlateColor = BonoUtils.GetColourFromUserID(player.field_Private_APIUser_0.id);
                 }
                 else
                 {
-                    if (ColorUtility.TryParseHtmlString(Settings.PlateColor.Value, out var color))
-                        PlateColor = color;
+                    if (Settings.PlateColorByRank.Value)
+                    {
+                        if (player != null) PlateColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                    }
                     else
                     {
-                        PlateColor = Color.green;
-                        Settings.PlateColor.Value = "#00FF00";
-                        ClassicPlates.DebugError("Invalid color string for nameplate color.");
+                        if (ColorUtility.TryParseHtmlString(Settings.PlateColor.Value, out var color))
+                            PlateColor = color;
+                        else
+                        {
+                            PlateColor = Color.green;
+                            Settings.PlateColor.Value = "#00FF00";
+                            ClassicPlates.DebugError("Invalid color string for nameplate color.");
+                        }
                     }
                 }
             }
 
-            if (Settings.NameColor != null && Settings.NameColorByRank != null)
+            if (Settings.NameColor != null && Settings.NameColorByRank != null && Settings.BTKColorNames != null)
             {
-                if (Settings.NameColorByRank.Value)
+                if (Settings.BTKColorNames.Value)
                 {
-                    if (player != null)
-                        NameColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                    if (player != null) NameColor = BonoUtils.GetColourFromUserID(player.field_Private_APIUser_0.id);
                 }
                 else
                 {
-                    if (ColorUtility.TryParseHtmlString(Settings.NameColor.Value, out var color))
-                        NameColor = color;
+                    if (Settings.NameColorByRank.Value)
+                    {
+                        if (player != null) NameColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                    }
                     else
                     {
-                        NameColor = Color.white;
-                        Settings.NameColor.Value = "#FFFFFF";
-                        ClassicPlates.DebugError("Invalid color string for name color.");
+                        if (ColorUtility.TryParseHtmlString(Settings.NameColor.Value, out var color))
+                            NameColor = color;
+                        else
+                        {
+                            NameColor = Color.white;
+                            Settings.NameColor.Value = "#FFFFFF";
+                            ClassicPlates.DebugError("Invalid color string for name color.");
+                        }
                     }
                 }
             }

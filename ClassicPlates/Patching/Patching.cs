@@ -19,77 +19,91 @@ internal static class Patching
     public static void Init()
     {
         var _localAddFriend = typeof(APIUser).GetMethod("LocalAddFriend");
-        var _onFriend = typeof(Patching).GetMethod(nameof(OnFriend),BindingFlags.NonPublic | BindingFlags.Static);
-        
+        var _onFriend = typeof(Patching).GetMethod(nameof(OnFriend), BindingFlags.NonPublic | BindingFlags.Static);
+
         var _unfriendUser = typeof(APIUser).GetMethod("UnfriendUser");
         var _unfriendUserRemote = typeof(FriendsListManager).GetMethod("Method_Private_Void_String_0");
-        var _onUnfriend = typeof(Patching).GetMethod(nameof(OnUnfriend),BindingFlags.NonPublic | BindingFlags.Static);
+        var _onUnfriend = typeof(Patching).GetMethod(nameof(OnUnfriend), BindingFlags.NonPublic | BindingFlags.Static);
 
         var _onMasterClientSwitch = typeof(NetworkManager).GetMethod("OnMasterClientSwitched");
-        var _OnMasterChange = typeof(Patching).GetMethod(nameof(OnMasterChange),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnMasterChange =
+            typeof(Patching).GetMethod(nameof(OnMasterChange), BindingFlags.NonPublic | BindingFlags.Static);
 
         var _VRCPlayerAwake = typeof(VRCPlayer).GetMethod("Awake");
-        var _OnVRCPlayerAwake = typeof(Patching).GetMethod(nameof(OnPlayerAwake),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnVRCPlayerAwake =
+            typeof(Patching).GetMethod(nameof(OnPlayerAwake), BindingFlags.NonPublic | BindingFlags.Static);
 
-        var _ModerationSend1 = typeof(ModerationManager).GetMethods().Where(mb => mb.Name.StartsWith("Method_Private_ApiPlayerModeration_String_String_ModerationType_")).ToList();
-        var _OnModerationSend1 = typeof(Patching).GetMethod(nameof(OnPlayerModerationSend1),BindingFlags.NonPublic | BindingFlags.Static);
+        var _ModerationSend1 = typeof(ModerationManager).GetMethods().Where(mb =>
+            mb.Name.StartsWith("Method_Private_ApiPlayerModeration_String_String_ModerationType_")).ToList();
+        var _OnModerationSend1 = typeof(Patching).GetMethod(nameof(OnPlayerModerationSend1),
+            BindingFlags.NonPublic | BindingFlags.Static);
 
-        var _ModerationSend2 = typeof(ModerationManager).GetMethods().Where(mb => mb.Name.StartsWith("Method_Private_Void_String_ModerationType_Action_1_ApiPlayerModeration_Action_1_String_")).ToList();
-        var _OnModerationSend2 = typeof(Patching).GetMethod(nameof(OnPlayerModerationSend2),BindingFlags.NonPublic | BindingFlags.Static);
+        var _ModerationSend2 = typeof(ModerationManager).GetMethods().Where(mb =>
+            mb.Name.StartsWith(
+                "Method_Private_Void_String_ModerationType_Action_1_ApiPlayerModeration_Action_1_String_")).ToList();
+        var _OnModerationSend2 = typeof(Patching).GetMethod(nameof(OnPlayerModerationSend2),
+            BindingFlags.NonPublic | BindingFlags.Static);
 
         var _ModerationRemove = typeof(ModerationManager).GetMethod("Method_Private_Void_String_ModerationType_0");
-        var _OnModerationRemove = typeof(Patching).GetMethod(nameof(OnPlayerModerationRemove),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnModerationRemove = typeof(Patching).GetMethod(nameof(OnPlayerModerationRemove),
+            BindingFlags.NonPublic | BindingFlags.Static);
 
         var _OnEvent = typeof(LoadBalancingClient).GetMethod("OnEvent");
-        var _OnEventPatch = typeof(Patching).GetMethod(nameof(OnEvent),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnEventPatch = typeof(Patching).GetMethod(nameof(OnEvent), BindingFlags.NonPublic | BindingFlags.Static);
 
         var _SetNameplateMode = typeof(VRC.NameplateManager).GetMethod("Method_Public_Static_set_Void_NameplateMode_0");
-        var _OnNameplateModeUpdate = typeof(Patching).GetMethod(nameof(OnNameplateModeUpdate),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnNameplateModeUpdate =
+            typeof(Patching).GetMethod(nameof(OnNameplateModeUpdate), BindingFlags.NonPublic | BindingFlags.Static);
 
         var _SetStatusMode = typeof(VRC.NameplateManager).GetMethod("Method_Public_Static_set_Void_StatusMode_PDM_0");
-        var _OnStatusModeUpdate = typeof(Patching).GetMethod(nameof(OnStatusModeUpdate),BindingFlags.NonPublic | BindingFlags.Static);
+        var _OnStatusModeUpdate =
+            typeof(Patching).GetMethod(nameof(OnStatusModeUpdate), BindingFlags.NonPublic | BindingFlags.Static);
 
-        var _LoadingBarProgress = typeof(AvatarLoadingBar).GetMethods().Where(mb => mb.Name.Contains("Method_Public_Void_Single_Int64_")).ToList();
-        var _OnAvatarDownloadProgress = typeof(Patching).GetMethod(nameof(OnAvatarDownloadProgress),BindingFlags.NonPublic | BindingFlags.Static);
-        
-        
+        var _LoadingBarProgress = typeof(AvatarLoadingBar).GetMethods()
+            .Where(mb => mb.Name.Contains("Method_Public_Void_Single_Int64_")).ToList();
+        var _OnAvatarDownloadProgress = typeof(Patching).GetMethod(nameof(OnAvatarDownloadProgress),
+            BindingFlags.NonPublic | BindingFlags.Static);
+
+
         if (_localAddFriend != null && _onFriend != null)
             _instance.Patch(_localAddFriend, null, new HarmonyMethod(_onFriend));
 
-        if(_unfriendUser != null && _onUnfriend != null)
+        if (_unfriendUser != null && _onUnfriend != null)
             _instance.Patch(_unfriendUser, null, new HarmonyMethod(_onUnfriend));
 
-        if(_onMasterClientSwitch != null && _OnMasterChange != null)
+        if (_onMasterClientSwitch != null && _OnMasterChange != null)
             _instance.Patch(_onMasterClientSwitch, new HarmonyMethod(_OnMasterChange));
-        
-        if(_VRCPlayerAwake != null && _OnVRCPlayerAwake != null)
-            _instance.Patch(_VRCPlayerAwake, null,new HarmonyMethod(_OnVRCPlayerAwake));
 
-        if(_ModerationSend1 != null && _OnModerationSend1 != null) 
-            _ModerationSend1.ForEach(info => _instance.Patch(info,null, new HarmonyMethod(_OnModerationSend1)));
+        if (_VRCPlayerAwake != null && _OnVRCPlayerAwake != null)
+            _instance.Patch(_VRCPlayerAwake, null, new HarmonyMethod(_OnVRCPlayerAwake));
 
-        if(_ModerationSend2 != null && _OnModerationSend2 != null) 
-            _ModerationSend2.ForEach(info => _instance.Patch(info,null, new HarmonyMethod(_OnModerationSend2)));
-        
-        if(_ModerationRemove != null && _OnModerationRemove != null)
-            _instance.Patch(_ModerationRemove, null,new HarmonyMethod(_OnModerationRemove));
+        if (_ModerationSend1 != null && _OnModerationSend1 != null)
+            _ModerationSend1.ForEach(info =>
+                _instance.Patch(info, null, new HarmonyMethod(_OnModerationSend1)));
 
-        if(_unfriendUserRemote != null && _onUnfriend != null)
+        if (_ModerationSend2 != null && _OnModerationSend2 != null)
+            _ModerationSend2.ForEach(info =>
+                _instance.Patch(info, null, new HarmonyMethod(_OnModerationSend2)));
+
+        if (_ModerationRemove != null && _OnModerationRemove != null)
+            _instance.Patch(_ModerationRemove, null, new HarmonyMethod(_OnModerationRemove));
+
+        if (_unfriendUserRemote != null && _onUnfriend != null)
             _instance.Patch(_unfriendUserRemote, null, new HarmonyMethod(_onUnfriend));
 
-        if(_OnEvent != null && _OnEventPatch != null)
-            _instance.Patch(_OnEvent, null,new HarmonyMethod(_OnEventPatch));
+        if (_OnEvent != null && _OnEventPatch != null)
+            _instance.Patch(_OnEvent,new HarmonyMethod(_OnEventPatch));
 
-        if(_SetNameplateMode != null && _OnNameplateModeUpdate != null)
-            _instance.Patch(_SetNameplateMode, null,new HarmonyMethod(_OnNameplateModeUpdate));
+        if (_SetNameplateMode != null && _OnNameplateModeUpdate != null)
+            _instance.Patch(_SetNameplateMode, null, new HarmonyMethod(_OnNameplateModeUpdate));
 
-        if(_SetStatusMode != null && _OnStatusModeUpdate != null)
-            _instance.Patch(_SetStatusMode, null,new HarmonyMethod(_OnStatusModeUpdate));
-        
+        if (_SetStatusMode != null && _OnStatusModeUpdate != null)
+            _instance.Patch(_SetStatusMode, null, new HarmonyMethod(_OnStatusModeUpdate));
+
         //TODO: Add Avatar Loading Bar
         // if(_LoadingBarProgress != null && _OnAvatarDownloadProgress != null)
         //      _LoadingBarProgress.ForEach(info => _instance.Patch(info, null,new HarmonyMethod(_OnAvatarDownloadProgress)));
-                             
+
     }
 
     private static void OnAvatarIsReady(VRCPlayer vrcPlayer)
@@ -165,20 +179,22 @@ internal static class Patching
     {
         if (__0 == null) return;
         ClassicPlates.Debug("OnPlayerModerationRemove");
-        RemoveModeration(__0, __1);
+        UpdateModeration(__0, __1);
     }
     
-    private static void OnEvent(LoadBalancingClient __instance, ref EventData __0)
+    private static void OnEvent(LoadBalancingClient __instance, EventData __0)
     {
-        if (__0 == null) return;
-        if (__0.Code == 33)
+        if (__0 != null)
         {
-            PhotonUtils.HandleModerationEvent(__instance, __0);
-        }
-
-        if (__0.Code == 60)
-        {
-            PhotonUtils.HandleInteractionEvent(__instance, __0);
+            switch (__0.Code)
+            {
+                case 33:
+                    PhotonUtils.HandleModerationEvent(__instance, __0);
+                    break;
+                case 60:
+                    PhotonUtils.HandleInteractionEvent(__instance, __0);
+                    break;
+            }
         }
     }
 
@@ -192,55 +208,6 @@ internal static class Patching
     {
         ClassicPlates.Debug("OnStatusModeUpdate: " + __0);
         Settings.StatusMode = __0;
-    }
-
-    private static void RemoveModeration(string id, ApiPlayerModeration.ModerationType type)
-    {
-        ClassicPlates.Debug("Moderation Removed for user: " + id + " | Type: " + type);
-
-        if (ClassicPlates.NameplateManager == null) return;
-        var oldNameplate = ClassicPlates.NameplateManager.GetNameplate(id);
-        if (oldNameplate == null) return;
-        switch (type)
-        {
-            
-            // Introduces unwanted behavior when friending users
-            case ApiPlayerModeration.ModerationType.Mute:
-            {
-                // oldNameplate.IsMuted = false;
-                break;
-            }
-
-            case ApiPlayerModeration.ModerationType.Unmute:
-            {
-                // oldNameplate.IsMuted = true;
-                break;
-            }
-
-            case ApiPlayerModeration.ModerationType.Block:
-            {
-                oldNameplate.IsBlocked = false;
-                break;
-            }
-            
-            case ApiPlayerModeration.ModerationType.None:
-                break;
-            
-            case ApiPlayerModeration.ModerationType.HideAvatar:
-                break;
-            
-            case ApiPlayerModeration.ModerationType.ShowAvatar:
-                break;
-
-            case ApiPlayerModeration.ModerationType.InteractOff:
-                break;
-            
-            case ApiPlayerModeration.ModerationType.InteractOn:
-                break;
-            
-            default:
-                throw new ArgumentOutOfRangeException(nameof(type), type, null);
-        }
     }
 
     private static void UpdateModeration(string id, ApiPlayerModeration.ModerationType type)
@@ -272,7 +239,7 @@ internal static class Patching
             
             case ApiPlayerModeration.ModerationType.Block:
             {
-                oldNameplate.IsBlocked = true;
+                oldNameplate.IsBlocked = !oldNameplate.IsBlocked;
                 break;
             }
 
