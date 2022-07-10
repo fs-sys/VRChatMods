@@ -22,6 +22,15 @@ NSFW Enforcer is a detector for NSFW avatars (Through tags or NSFW objects), add
 *The mod also may include the ability to flag NSFW avatars that have not flagged themselves as such*
 
 
+## World Map
+Adds an interactable map into the game, either attached to your hand, on your hud, or evn *possibly* as a spawnable table.
+### Planned Features
+- Spawnable Map Table  
+- Hud details such as Coordinates and a Compass  
+- Visible waypoints/beacons  
+- Player Locator  
+
+
 ## Custom Fallback
 A replacement of VRChat's default fallback robot avatars, this is a popular feature in malicious/unverified mods. However, those rely on downloaded VRCA files.  
 This version will utilize a different method of replacement that may be even more convenient anyways.
