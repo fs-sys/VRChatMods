@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using Il2CppSystem.Linq;
 using MelonLoader;
+using TMPro;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using UnityEngine.Animations;

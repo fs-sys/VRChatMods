@@ -1,9 +1,10 @@
 ﻿using System.Collections;
+using ClassicPlates.Compatibility;
 using ClassicPlates.Patching;
 using MelonLoader;
 using VRC;
 
-[assembly: MelonInfo(typeof(ClassicPlates.ClassicPlates), "ClassicPlates", "1.0.3", ".FS.#8519")]
+[assembly: MelonInfo(typeof(ClassicPlates.ClassicPlates), "ClassicPlates", "1.0.4", ".FS.#8519")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 namespace ClassicPlates;
@@ -23,6 +24,8 @@ public class ClassicPlates : MelonMod {
     {
         AssetManager.Init();
         Settings.Init();
+        Compat.Init();
+
         MelonCoroutines.Start(UIManagerInit());
     }
 
@@ -93,5 +96,10 @@ public class ClassicPlates : MelonMod {
     internal static void DebugError(object obj) {
         if (MelonDebug.IsEnabled())
             Logger.Error($"[DEBUG] {obj}");
+    }
+
+    public static void Warning(string s)
+    {
+        Logger.Warning(s);
     }
 }

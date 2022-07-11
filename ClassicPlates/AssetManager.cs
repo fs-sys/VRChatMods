@@ -126,6 +126,9 @@ internal static class AssetManager
                 SpriteDict?.Add("physno",
                     LoadSprite("PhysNo.png") ?? throw new Exception("AssetLoadException: PhysNo.png"));
                 
+                SpriteDict?.Add("logo",
+                    LoadSprite("Logo.png") ?? throw new Exception("AssetLoadException: Logo.png"));
+                
                 CreateSpriteArrays();
             }
             catch (Exception e)

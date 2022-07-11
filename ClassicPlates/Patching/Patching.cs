@@ -91,8 +91,9 @@ internal static class Patching
         if (_unfriendUserRemote != null && _onUnfriend != null)
             _instance.Patch(_unfriendUserRemote, null, new HarmonyMethod(_onUnfriend));
 
-        if (_OnEvent != null && _OnEventPatch != null)
-            _instance.Patch(_OnEvent,new HarmonyMethod(_OnEventPatch));
+        // Switching to different system
+        // if (_OnEvent != null && _OnEventPatch != null)
+        //     _instance.Patch(_OnEvent,new HarmonyMethod(_OnEventPatch));
 
         if (_SetNameplateMode != null && _OnNameplateModeUpdate != null)
             _instance.Patch(_SetNameplateMode, null, new HarmonyMethod(_OnNameplateModeUpdate));
@@ -104,6 +105,7 @@ internal static class Patching
         // if(_LoadingBarProgress != null && _OnAvatarDownloadProgress != null)
         //      _LoadingBarProgress.ForEach(info => _instance.Patch(info, null,new HarmonyMethod(_OnAvatarDownloadProgress)));
 
+        VRCNetworkingClient.field_Internal_Static_VRCNetworkingClient_0.field_Private_Action_1_EventData_0 += new System.Action<EventData>(OnEvent);
     }
 
     private static void OnAvatarIsReady(VRCPlayer vrcPlayer)
@@ -182,17 +184,17 @@ internal static class Patching
         UpdateModeration(__0, __1);
     }
     
-    private static void OnEvent(LoadBalancingClient __instance, EventData __0)
+    private static void OnEvent(EventData eventData)
     {
-        if (__0 != null)
+        if (eventData != null)
         {
-            switch (__0.Code)
+            switch (eventData.Code)
             {
                 case 33:
-                    PhotonUtils.HandleModerationEvent(__instance, __0);
+                    PhotonUtils.HandleModerationEvent(eventData);
                     break;
                 case 60:
-                    PhotonUtils.HandleInteractionEvent(__instance, __0);
+                    PhotonUtils.HandleInteractionEvent(eventData);
                     break;
             }
         }

@@ -125,39 +125,39 @@ public class NameplateManager
         }
         return badge;
     }
-    
+
     public static void InitializePlate(OldNameplate oldNameplate, Player? player)
     {
-        if (player != null)
+        try
         {
-            try
+            if (player != null)
             {
                 oldNameplate.player = player;
 
                 if (oldNameplate.player != null)
                 {
                     oldNameplate.Name = player.field_Private_APIUser_0.displayName;
-                    
+
                     oldNameplate.Status = player.field_Private_APIUser_0.statusDescriptionDisplayString;
-                    
+
                     oldNameplate.Rank =
                         VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
-                    
+
                     oldNameplate.IsFriend = player.field_Private_APIUser_0.isFriend;
-                    
+
                     oldNameplate.IsMaster = player.field_Private_VRCPlayerApi_0.isMaster;
-                    
+
                     ClassicPlates.NameplateManager!._masterClient = player.field_Private_APIUser_0.id;
-                    
+
                     //Getting if this value has changed.
                     //uSpeaker.NativeMethodInfoPtr_Method_Public_Single_1
                     //Have fun future me, it's your favorite thing, native patching :D
                     oldNameplate.UserVolume = player.prop_USpeaker_0.field_Private_Single_1;
-                    
+
                     oldNameplate.ProfilePicture = player.field_Private_APIUser_0.userIcon;
-                    
+
                     oldNameplate.IsQuest = player.field_Private_APIUser_0._last_platform.ToLower() == "android";
-                    
+
                     oldNameplate.IsVip = player.field_Private_VRCPlayerApi_0.isModerator |
                                          player.field_Private_VRCPlayerApi_0.isSuper;
 
@@ -172,7 +172,7 @@ public class NameplateManager
                     {
                         ClassicPlates.Error("EnableDisableListener is null");
                     }
-                    
+
                     oldNameplate.AvatarKind =
                         player._vrcplayer.field_Private_VRCAvatarManager_0.field_Private_AvatarKind_0;
 
@@ -212,18 +212,19 @@ public class NameplateManager
                     oldNameplate.Status = "||Failed to load||";
                 }
             }
-            catch (Exception e)
+
+            else
             {
                 oldNameplate.Name = "||Error||";
                 oldNameplate.Status = "||Failed to load||";
-                ClassicPlates.Error("Unable to Initialize Nameplate: " + e);
+                ClassicPlates.Error("Unable to Initialize Nameplate: Player is null");
             }
         }
-        else
+        catch (Exception e)
         {
             oldNameplate.Name = "||Error||";
             oldNameplate.Status = "||Failed to load||";
-            ClassicPlates.Error("Unable to Initialize Nameplate: Player is null");
+            ClassicPlates.Error("Unable to Initialize Nameplate: " + e);
         }
     }
 

@@ -16,9 +16,9 @@ public static class PhotonUtils
     private static readonly List<int> QueuedBlocks = new();
     private static readonly List<int> QueuedMutes = new();
 
-    internal static void HandleModerationEvent(LoadBalancingClient loadBalancingClient, EventData eventData)
+    internal static void HandleModerationEvent(EventData eventData)
     {
-        _loadBalancingClient ??= loadBalancingClient;
+        _loadBalancingClient ??= Photon.Pun.PhotonNetwork.field_Public_Static_LoadBalancingClient_0;
 
         var moderationDict = eventData.Parameters[245]
             .TryCast<Il2CppSystem.Collections.Generic.Dictionary<byte, Object>>();
@@ -94,9 +94,9 @@ public static class PhotonUtils
         }
     }
     
-    public static void HandleInteractionEvent(LoadBalancingClient loadBalancingClient, EventData eventData)
+    public static void HandleInteractionEvent(EventData eventData)
     {
-        _loadBalancingClient ??= loadBalancingClient;
+        _loadBalancingClient ??= Photon.Pun.PhotonNetwork.field_Public_Static_LoadBalancingClient_0;
         var localID = _loadBalancingClient.prop_Player_0.prop_Int32_0;
         
         var interactionArr = Il2CppArrayBase<Array>.WrapNativeGenericArrayPointer(eventData.Parameters[245].Pointer);

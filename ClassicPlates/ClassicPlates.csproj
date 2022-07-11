@@ -43,6 +43,9 @@
       <Reference Include="Photon-DotNet">
         <HintPath>$(VRChatPath)\MelonLoader\Managed\Photon-DotNet.dll</HintPath>
       </Reference>
+      <Reference Include="QuickMenuLib">
+        <HintPath>X:\SteamLibrary\steamapps\common\VRChat\Mods\QuickMenuLib.dll</HintPath>
+      </Reference>
       <Reference Include="UnhollowerBaseLib, Version=0.4.17.0, Culture=neutral, PublicKeyToken=null">
         <HintPath>$(VRChatPath)\MelonLoader\Managed\UnhollowerBaseLib.dll</HintPath>
       </Reference>
