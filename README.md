@@ -2,6 +2,8 @@
 ## Classic Plates
 A modification to bring back the beloved nameplates of 2018 while remaining compatible with modern features.
 
+![Classic Nameplates](https://raw.githubusercontent.com/FSCodingWaifu/VRChatMods/main/classic_nameplate.png)
+
 ### Features
 - Modern Features such as VRC+ Profile Pictures, Fallback/Performance stats, and Quest Icons.
 - Fully customizable, allowing *most* components to toggle on and off.
