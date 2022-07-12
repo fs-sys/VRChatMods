@@ -1,21 +1,15 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using Il2CppSystem.Security.Cryptography;
-using MelonLoader;
 using UnityEngine;
-using VRC;
-using VRC.Core;
-using VRC.DataModel.Core;
-using VRC.UI.Elements.Menus;
 using static UnityEngine.Mathf;
-using Object = UnityEngine.Object;
 
 namespace ClassicPlates;
 
 //Thank you Bono for letting me use this code.
 public static class BonoUtils
     {
-        private static MD5 _hasher = MD5.Create();
+        private static readonly MD5 Hasher = MD5.Create();
 
         private static int Combine(this byte b1, byte concat)
         {
@@ -25,7 +19,7 @@ public static class BonoUtils
 
         public static Color GetColourFromUserID(string userID)
         {
-            var hash = _hasher.ComputeHash(Encoding.UTF8.GetBytes(userID));
+            var hash = Hasher.ComputeHash(Encoding.UTF8.GetBytes(userID));
             var colour2 = hash[3].Combine(hash[4]);
             //Fixed saturation and brightness values, only hue is altered
             return Color.HSVToRGB(colour2 / 65535f, .8f, .8f);

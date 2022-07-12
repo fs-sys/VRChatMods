@@ -2,9 +2,9 @@
 
 namespace ClassicPlates.Compatibility;
 
-public class Compat
+public static class Compat
 {
-    public static bool UiExpansionKit;
+    private static bool _uiExpansionKit;
 
     public static void Init()
     {
@@ -14,13 +14,13 @@ public class Compat
             {
                 case "UI Expansion Kit":
                 {
-                    UiExpansionKit = true;
+                    _uiExpansionKit = true;
                     ClassicPlates.Log("UI Expansion Kit found");
                     break;
                 }
             }
         }
-        if (UiExpansionKit != true)
+        if (_uiExpansionKit != true)
         {
             ClassicPlates.Warning("This mod is completely standalone, however, UiExpansionKit is recommended for the best experience.");
         }

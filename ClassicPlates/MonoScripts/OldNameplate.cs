@@ -1,12 +1,9 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
-using Il2CppSystem.Linq;
 using MelonLoader;
-using TMPro;
 using UnhollowerBaseLib.Attributes;
 using UnityEngine;
 using UnityEngine.Animations;
-using UnityEngine.Diagnostics;
 using UnityEngine.UI;
 using VRC;
 using VRC.SDKBase.Validation.Performance;
@@ -760,9 +757,9 @@ public class OldNameplate : MonoBehaviour
                 }
             }
 
-            if (Settings.NameColor != null && Settings.NameColorByRank != null && Settings.BTKColorNames != null)
+            if (Settings.NameColor != null && Settings.NameColorByRank != null && Settings.BtkColorNames != null)
             {
-                if (Settings.BTKColorNames.Value)
+                if (Settings.BtkColorNames.Value)
                 {
                     if (player != null) NameColor = BonoUtils.GetColourFromUserID(player.field_Private_APIUser_0.id);
                 }

@@ -48,9 +48,6 @@ internal static class Patching
         var _OnModerationRemove = typeof(Patching).GetMethod(nameof(OnPlayerModerationRemove),
             BindingFlags.NonPublic | BindingFlags.Static);
 
-        var _OnEvent = typeof(LoadBalancingClient).GetMethod("OnEvent");
-        var _OnEventPatch = typeof(Patching).GetMethod(nameof(OnEvent), BindingFlags.NonPublic | BindingFlags.Static);
-
         var _SetNameplateMode = typeof(VRC.NameplateManager).GetMethod("Method_Public_Static_set_Void_NameplateMode_0");
         var _OnNameplateModeUpdate =
             typeof(Patching).GetMethod(nameof(OnNameplateModeUpdate), BindingFlags.NonPublic | BindingFlags.Static);
@@ -105,7 +102,7 @@ internal static class Patching
         // if(_LoadingBarProgress != null && _OnAvatarDownloadProgress != null)
         //      _LoadingBarProgress.ForEach(info => _instance.Patch(info, null,new HarmonyMethod(_OnAvatarDownloadProgress)));
 
-        VRCNetworkingClient.field_Internal_Static_VRCNetworkingClient_0.field_Private_Action_1_EventData_0 += new System.Action<EventData>(OnEvent);
+        VRCNetworkingClient.field_Internal_Static_VRCNetworkingClient_0.field_Private_Action_1_EventData_0 += new Action<EventData>(OnEvent);
     }
 
     private static void OnAvatarIsReady(VRCPlayer vrcPlayer)

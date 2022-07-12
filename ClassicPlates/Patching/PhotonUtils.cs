@@ -3,15 +3,23 @@ using ExitGames.Client.Photon;
 using MelonLoader;
 using Photon.Realtime;
 using UnhollowerBaseLib;
+using VRC.Core;
 using Array = Il2CppSystem.Array;
 using Object = Il2CppSystem.Object;
 
 namespace ClassicPlates.Patching;
 
+public class Moderation
+{
+    public int? Player;
+    public bool? Blocked;
+    public bool? Muted;
+}
+
 public static class PhotonUtils
 {
     private static readonly Dictionary<string, Moderation> CachedModeration = new();
-    private static readonly Dictionary<string, PhotonPlayer?> CachedPlayers = new();
+    private static readonly Dictionary<string, APIUser> CachedPlayers = new();
     private static LoadBalancingClient? _loadBalancingClient;
     private static readonly List<int> QueuedBlocks = new();
     private static readonly List<int> QueuedMutes = new();
@@ -190,7 +198,7 @@ public static class PhotonUtils
         {
             if (moderation.Player != null)
             {
-                var cachedPlayer = GetPhotonPlayer(moderation.Player.Value);
+                var cachedPlayer = GetAPIUser(moderation.Player.Value);
                 
                 if (_loadBalancingClient is {field_Private_Room_0: { }} room)
                 {
@@ -204,11 +212,11 @@ public static class PhotonUtils
                         {
                             if (cachedPlayer != null)
                             {
-                                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID))
+                                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.id))
                                 {
-                                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
+                                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.id);
 
-                                    ClassicPlates.Debug("Applying Moderation for Player: " + cachedPlayer.ID);
+                                    ClassicPlates.Debug("Applying Moderation for Player: " + cachedPlayer.id);
                                     if (plate == null || moderation.Blocked == null || moderation.Muted == null)
                                         return;
                                     ClassicPlates.Debug("Block Status: " + moderation.Blocked.Value);
@@ -250,10 +258,10 @@ public static class PhotonUtils
                 else
                 {
                     ClassicPlates.Debug("Room was null, caching moderation...");
-                    var player = GetPhotonPlayer(moderation.Player.Value);
+                    var player = GetAPIUser(moderation.Player.Value);
                     if (player != null)
                     {
-                        CachedModeration.Add(player.ID, moderation);
+                        CachedModeration.Add(player.id, moderation);
                     }
                     else
                     {
@@ -281,14 +289,14 @@ public static class PhotonUtils
             return;
         }
 
-        foreach (var cachedPlayer in QueuedMutes.Select(GetPhotonPlayer))
+        foreach (var cachedPlayer in QueuedMutes.Select(GetAPIUser))
         {
             if (cachedPlayer != null)
             {
-                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID))
+                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.id))
                 {
-                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
-                    ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.ID);
+                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.id);
+                    ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.id);
 
                     if (plate != null) plate.IsMutedBy = true;
                 }
@@ -304,14 +312,14 @@ public static class PhotonUtils
             }
         }
 
-        foreach (var cachedPlayer in QueuedBlocks.Select(GetPhotonPlayer))
+        foreach (var cachedPlayer in QueuedBlocks.Select(GetAPIUser))
         {
             if (cachedPlayer != null)
             {
-                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID))
+                if (ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.id))
                 {
-                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
-                    ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.ID);
+                    var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.id);
+                    ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.id);
 
                     if (plate != null)
                         plate.IsBlocked = true;
@@ -332,29 +340,29 @@ public static class PhotonUtils
         QueuedMutes.Clear();
     }
 
-    private static IEnumerator QueueModeration(PhotonPlayer cachedPlayer, bool blocked = false, bool muted = false)
+    private static IEnumerator QueueModeration(APIUser cachedPlayer, bool blocked = false, bool muted = false)
     {
         if(ClassicPlates.NameplateManager == null) {yield break;}
-        while (!ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.ID)) { yield return null; }
-        var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.ID);
+        while (!ClassicPlates.NameplateManager.Nameplates.ContainsKey(cachedPlayer.id)) { yield return null; }
+        var plate = ClassicPlates.NameplateManager.GetNameplate(cachedPlayer.id);
         
         if (muted)
         {
-            ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.ID);
+            ClassicPlates.Debug("Applying Queued Mute for Player: " + cachedPlayer.id);
 
             if (plate != null) plate.IsMutedBy = true;
         }
         
         if (blocked)
         {
-            ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.ID);
+            ClassicPlates.Debug("Applying Queued Block for Player: " + cachedPlayer.id);
 
             if (plate != null)
                 plate.IsBlocked = true;
         }
     }
 
-    private static PhotonPlayer? GetPhotonPlayer(int playerID)
+    private static APIUser? GetAPIUser(int playerID)
     {
         var player = _loadBalancingClient?.prop_Room_0.Method_Public_Virtual_New_Player_Int32_Boolean_0(playerID);
         if (player == null) return null;
@@ -363,10 +371,10 @@ public static class PhotonUtils
         if (managedHash != null)
         {
             var hash = managedHash.GetHashCode();
-            var photonPlayer = new PhotonPlayer();
-            if (CachedPlayers.TryGetValue(hash.ToString(), out var cachedPlayer))
+            var apiUser = new APIUser();
+            if (CachedPlayers.TryGetValue(hash.ToString(), out APIUser cachedApiUser))
             {
-                photonPlayer = cachedPlayer;
+                apiUser = cachedApiUser;
             }
             else
             {
@@ -376,110 +384,85 @@ public static class PhotonUtils
                     {
                         case "id":
                         {
-                            photonPlayer.ID = keyPair.Value.ToString();
+                            apiUser.id = keyPair.Value.ToString();
                             break;
                         }
                         case "displayName":
                         {
-                            photonPlayer.DisplayName = keyPair.Value.ToString();
+                            apiUser.displayName = keyPair.Value.ToString();
                             break;
                         }
                         case "developerType":
                         {
-                            photonPlayer.DeveloperType = keyPair.Value.ToString();
+                            apiUser.developerType =
+                                System.Enum.TryParse(keyPair.Value.ToString(), out APIUser.DeveloperType developerType)
+                                    ? developerType
+                                    : APIUser.DeveloperType.None;
                             break;
                         }
                         case "profilePicOverride":
                         {
-                            photonPlayer.ProfilePicOverride = keyPair.Value.ToString();
+                            apiUser.profilePicOverride = keyPair.Value.ToString();
                             break;
                         }
                         case "currentAvatarImageUrl":
                         {
-                            photonPlayer.CurrentAvatarImageUrl = keyPair.Value.ToString();
+                            apiUser.currentAvatarImageUrl = keyPair.Value.ToString();
                             break;
                         }
                         case "currentAvatarThumbnailImageUrl":
                         {
-                            photonPlayer.CurrentAvatarThumbnailImageUrl = keyPair.Value.ToString();
+                            apiUser.currentAvatarThumbnailImageUrl = keyPair.Value.ToString();
                             break;
                         }
                         case "userIcon":
                         {
-                            photonPlayer.UserIcon = keyPair.Value.ToString();
+                            apiUser.userIcon = keyPair.Value.ToString();
                             break;
                         }
                         case "last_platform":
                         {
-                            photonPlayer.LastPlatform = keyPair.Value.ToString();
+                            apiUser.last_platform = keyPair.Value.ToString();
                             break;
                         }
                         case "allowAvatarCopying":
                         {
-                            photonPlayer.AllowAvatarCopying = keyPair.Value.Unbox<bool>();
+                            apiUser.allowAvatarCopying = keyPair.Value.Unbox<bool>();
                             break;
                         }
                         case "status":
                         {
-                            photonPlayer.Status = keyPair.Value.ToString();
+                            apiUser.status = keyPair.Value.ToString();
                             break;
                         }
                         case "statusDescription":
                         {
-                            photonPlayer.StatusDescription = keyPair.Value.ToString();
+                            apiUser.statusDescription = keyPair.Value.ToString();
                             break;
                         }
                         case "bio":
                         {
-                            photonPlayer.Bio = keyPair.Value.ToString();
+                            apiUser.bio = keyPair.Value.ToString();
                             break;
                         }
                         case "bioLinks":
-                        {
-                            photonPlayer.BioLinks = Il2CppArrayBase<Object>.WrapNativeGenericArrayPointer(keyPair.Value.Pointer);
+                        { 
+                            apiUser.bioLinks = keyPair.Value.TryCast<Il2CppSystem.Collections.Generic.List<string>>();
                             break;
                         }
                         case "tags":
                         {
-                            photonPlayer.Tags = Il2CppArrayBase<Object>.WrapNativeGenericArrayPointer(keyPair.Value.Pointer);
+                            apiUser.tags = keyPair.Value.TryCast<Il2CppSystem.Collections.Generic.List<string>>();
                             break;
                         }
                     }
                 }
-
-                CachedPlayers.Add(hash.ToString(), photonPlayer);
+                CachedPlayers.Add(hash.ToString(), apiUser);
             }
 
-            return photonPlayer;
+            return apiUser;
         }
         ClassicPlates.Error("Player Hashtable is Null");
         return null;
     }
-}
-
-public class Moderation
-{
-    public int? Player;
-    public bool? Blocked;
-    public bool? Muted;
-}
-
-public class PhotonPlayer
-{
-#pragma warning disable CS8618
-    public string ID;
-    public string DisplayName;
-    public string DeveloperType;
-    public string ProfilePicOverride;
-    public string CurrentAvatarImageUrl;
-    public string CurrentAvatarThumbnailImageUrl;
-    public string UserIcon;
-    public string LastPlatform;
-    public bool AllowAvatarCopying;
-    public string Status;
-    public string StatusDescription;
-    public string Bio;
-    public object[] BioLinks;
-    public object[] Tags;
-#pragma warning restore CS8618
 }

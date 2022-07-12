@@ -23,7 +23,7 @@ internal static class Settings
         NameColorByRank = melonPreferencesCategory.CreateEntry("_nameColorByRank", false, "Rank Color Name");
         
         BtkColorPlates = melonPreferencesCategory.CreateEntry("_btkColorPlates", false, "Random Color Plates");
-        BTKColorNames = melonPreferencesCategory.CreateEntry("_btkColorNames", false, "Random Color Names");
+        BtkColorNames = melonPreferencesCategory.CreateEntry("_btkColorNames", false, "Random Color Names");
 
         ShowRank = melonPreferencesCategory.CreateEntry("_showRank", true, "Show Rank");
         ShowVoiceBubble = melonPreferencesCategory.CreateEntry("_showVoiceBubble", true, "Show Voice Bubble");
@@ -64,7 +64,7 @@ internal static class Settings
     public static MelonPreferences_Entry<bool>? NameColorByRank;
 
     public static MelonPreferences_Entry<bool>? BtkColorPlates;
-    public static MelonPreferences_Entry<bool>? BTKColorNames;
+    public static MelonPreferences_Entry<bool>? BtkColorNames;
     
     public static MelonPreferences_Entry<bool>? ShowRank;
     public static MelonPreferences_Entry<bool>? ShowVoiceBubble;
