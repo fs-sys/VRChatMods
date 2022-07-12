@@ -319,56 +319,72 @@ public class NameplateManager
             var scaleValue = Settings.Scale.Value * .001f;
             var offsetValue = Settings.Offset.Value;
 
-            var id = vrcPlayer._player.field_Private_APIUser_0.id;
-            if (id is {Length: > 0})
+            // Hopefully fixes ID null issues
+            var player = vrcPlayer._player;
+            if (player != null)
             {
-                if (Nameplates.TryGetValue(id, out var nameplate))
+                var apiUser = player.field_Private_APIUser_0;
+                if (apiUser == null)
                 {
-                    if (nameplate != null)
+                    ClassicPlates.DebugError("APIUser is null");
+                    return;
+                }
+
+                var id = apiUser.id;
+                if (id is {Length: > 0})
+                {
+                    if (Nameplates.TryGetValue(id, out var nameplate))
                     {
-                        nameplate.ApplySettings(position, scaleValue, offsetValue);
+                        if (nameplate != null)
+                        {
+                            nameplate.ApplySettings(position, scaleValue, offsetValue);
+                        }
+                        else
+                        {
+                            ClassicPlates.Error("Unable to Update Nameplate: Nameplate is Null");
+                        }
                     }
                     else
                     {
-                        ClassicPlates.Error("Unable to Instantiate Nameplate: Nameplate is Null");
+                        var plate = UnityEngine.Object.Instantiate(AssetManager.Nameplate,
+                            new(position.x, position.y + offsetValue, position.z),
+                            new(0, 0, 0, 0), oldNameplate.parent);
+
+                        if (plate != null)
+                        {
+                            plate.transform.localScale = new(scaleValue, scaleValue, scaleValue);
+                            plate.name = "OldNameplate";
+                            nameplate = plate.AddComponent<OldNameplate>();
+                            AddNameplate(nameplate, vrcPlayer);
+                        }
+                        else
+                        {
+                            ClassicPlates.Error("Unable to Instantiate Nameplate: Nameplate is Null");
+                        }
+                    }
+
+                    if (Settings.Enabled.Value)
+                    {
+                        oldNameplate.GetChild(0).gameObject.active = false;
+                        if (nameplate != null && Settings.ShowOthersOnMenu != null && !nameplate.IsLocal &&
+                            nameplate.Nameplate != null)
+                            nameplate.Nameplate.active = Settings.Enabled.Value & (
+                                Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Standard |
+                                Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Icons |
+                                (Settings.ShowOthersOnMenu.Value &&
+                                 Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Hidden &&
+                                 nameplate.qmOpen));
+                    }
+                    else
+                    {
+                        oldNameplate.GetChild(0).gameObject.active = true;
+                        if (nameplate != null && nameplate.Nameplate != null)
+                            nameplate.Nameplate.active = false;
                     }
                 }
                 else
                 {
-                    var plate = UnityEngine.Object.Instantiate(AssetManager.Nameplate,
-                        new(position.x, position.y + offsetValue, position.z),
-                        new(0, 0, 0, 0), oldNameplate.parent);
-
-                    if (plate != null)
-                    {
-                        plate.transform.localScale = new(scaleValue, scaleValue, scaleValue);
-                        plate.name = "OldNameplate";
-                        nameplate = plate.AddComponent<OldNameplate>();
-                        AddNameplate(nameplate, vrcPlayer);
-                    }
-                    else
-                    {
-                        ClassicPlates.Error("Unable to Instantiate Nameplate: Nameplate is Null");
-                    }
-                }
-
-                if (Settings.Enabled.Value)
-                {
-                    oldNameplate.GetChild(0).gameObject.active = false;
-                    if (nameplate != null && Settings.ShowOthersOnMenu != null && !nameplate.IsLocal &&
-                        nameplate.Nameplate != null)
-                        nameplate.Nameplate.active = Settings.Enabled.Value & (
-                            Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Standard |
-                            Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Icons |
-                            (Settings.ShowOthersOnMenu.Value &&
-                             Settings.NameplateMode == VRC.NameplateManager.NameplateMode.Hidden &&
-                             nameplate.qmOpen));
-                }
-                else
-                {
-                    oldNameplate.GetChild(0).gameObject.active = true;
-                    if (nameplate != null && nameplate.Nameplate != null)
-                        nameplate.Nameplate.active = false;
+                    ClassicPlates.Error("Unable to Instantiate Nameplate: Player is Null");
                 }
             }
             else
