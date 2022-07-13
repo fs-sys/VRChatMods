@@ -4,7 +4,7 @@ using ClassicPlates.Patching;
 using MelonLoader;
 using VRC;
 
-[assembly: MelonInfo(typeof(ClassicPlates.ClassicPlates), "ClassicPlates", "1.0.4", ".FS.#8519")]
+[assembly: MelonInfo(typeof(ClassicPlates.ClassicPlates), "ClassicPlates", "1.0.5", ".FS.#8519")]
 [assembly: MelonGame("VRChat", "VRChat")]
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 namespace ClassicPlates;
