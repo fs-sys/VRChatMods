@@ -1,5 +1,6 @@
 ﻿using ClassicPlates.MonoScripts;
 using System.Collections;
+using ClassicPlates.Patching;
 using UnityEngine;
 using UnityEngine.UI;
 using VRC;
@@ -139,9 +140,12 @@ public class NameplateManager
                     oldNameplate.Name = player.field_Private_APIUser_0.displayName;
 
                     oldNameplate.Status = player.field_Private_APIUser_0.statusDescriptionDisplayString;
-
+                    
                     oldNameplate.Rank =
                         VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
+
+                    // Literally broken no matter what I try.
+                    //oldNameplate.ShowSocialRank = player.field_Private_APIUser_0.showSocialRank;
 
                     oldNameplate.IsFriend = player.field_Private_APIUser_0.isFriend;
 

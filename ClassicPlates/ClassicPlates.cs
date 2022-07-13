@@ -14,7 +14,7 @@ namespace ClassicPlates;
 //TODO: Setting Presets
 //TODO: Nameplate Stats Compatibility
 //TODO: TW/ReMod/BTK Compatibility
-//TODO: Hook into OnSocialRank change
+//Maybe: Hook into OnSocialRank change
 public class ClassicPlates : MelonMod {
     private static readonly MelonLogger.Instance Logger = new("ClassicNameplates");
 

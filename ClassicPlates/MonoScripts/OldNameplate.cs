@@ -38,6 +38,7 @@ public class OldNameplate : MonoBehaviour
     private Color _nameColor;
     private string? _name;
     private string? _rank;
+    // private bool _showSocialRank;
     private string? _status;
     private string? _profilePicture;
     private string? _plateBackground;
@@ -309,14 +310,53 @@ public class OldNameplate : MonoBehaviour
         }
     }
 
+    private bool ShowSocialRank => true; //_showSocialRank;
+    /*set
+        {
+            if (_showSocialRank == value) return;
+            _showSocialRank = value;
+            if (_showSocialRank)
+            {
+                if (player != null)
+                {
+                    var userRank = VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
+                    var userColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.field_Private_APIUser_0);
+                    if (userRank != null) Rank = userRank;
+
+                    if (Settings.PlateColorByRank is {Value: true})
+                        PlateColor = userColor;
+                    if (Settings.NameColorByRank is {Value: true})
+                        NameColor = userColor;
+                }
+            }
+            else
+            {
+                Rank = "User";
+                if (Settings.PlateColorByRank is {Value: true})
+                    PlateColor = VRCPlayer.field_Internal_Static_Color_4;
+                if (Settings.NameColorByRank is {Value: true})
+                    NameColor = VRCPlayer.field_Internal_Static_Color_4;
+            }
+            IsFriend = _isFriend;
+        }*/
+    
     public string? Rank
     {
         get => _rank;
         set
         {
-            _rank = value;
             if (_rankText == null) return;
-            _rankText.text = _rank;
+            if (ShowSocialRank)
+            {
+                _rank = value;
+                _rankText.text = _rank;
+            }
+            else
+            {
+                _rank = "User";
+                _rankText.text = "User";
+            }
+            IsFriend = _isFriend;
             if (Settings.ShowRank != null) _rankText.gameObject.active = Settings.ShowRank.Value;
         }
     }
@@ -623,7 +663,12 @@ public class OldNameplate : MonoBehaviour
         {
             if (Nameplate != null && Nameplate.active && player != null)
             {
-                UserVolume = player._USpeaker.field_Private_Single_1;
+                // ReSharper disable once CompareOfFloatsByEqualityOperator
+                if (UserVolume != player._USpeaker.field_Private_Single_1)
+                    UserVolume = player._USpeaker.field_Private_Single_1;
+                
+                // if(ShowSocialRank != player.field_Private_APIUser_0.showSocialRank)
+                //     ShowSocialRank = player.field_Private_APIUser_0.showSocialRank;
             }
 
             yield return new WaitForSeconds(2f);
@@ -664,7 +709,7 @@ public class OldNameplate : MonoBehaviour
                     _constraint = Nameplate!.AddComponent<PositionConstraint>();
                     ClassicPlates.Error("Constraint is null, forcefully adding it.");
                 }
-
+                
                 if (_constraint.sourceCount > 1)
                 {
                     ClassicPlates.Error("Constraint.sourceCount is greater than 1, resetting...");
@@ -683,12 +728,25 @@ public class OldNameplate : MonoBehaviour
                 if (_constraint.sourceCount < 1)
                 {
                     if (player != null)
-                        _constraint.AddSource(new ConstraintSource
+                    {
+                        var avatarManager = player._vrcplayer.field_Private_VRCAvatarManager_0;
+                        if (avatarManager != null)
                         {
-                            sourceTransform = player._vrcplayer.field_Private_VRCAvatarManager_0
-                                .field_Private_Transform_2,
-                            weight = 1
-                        });
+                            var headBone = avatarManager.field_Private_Transform_0;
+                            if (headBone != null)
+                            {
+                                _constraint.AddSource(new ConstraintSource
+                                {
+                                    sourceTransform = headBone,
+                                    weight = 1
+                                });
+                            }
+                        }
+                        else
+                        {
+                            ClassicPlates.DebugError("VRCAvatarManager is null, cannot add constraint source.");
+                        }
+                    }
                     else
                     {
                         ClassicPlates.Error("Could not create constraint, player is null.");
@@ -706,9 +764,11 @@ public class OldNameplate : MonoBehaviour
             }
 
             if (Settings.ShowRank != null)
-                if (_rankText != null)
-                    _rankText.gameObject.active = Settings.ShowRank.Value && Rank != "";
-
+                if (_rankText != null && player != null)
+                {
+                    // ShowSocialRank = player.field_Private_APIUser_0.showSocialRank;
+                    Rank = VRCPlayer.Method_Public_Static_String_APIUser_0(player.field_Private_APIUser_0);
+                }
             if (_mainStatus != null)
                 _mainStatus.gameObject.active =
                     Settings.StatusMode == VRC.NameplateManager.StatusMode.AlwaysOn && Status != "" |
@@ -741,7 +801,7 @@ public class OldNameplate : MonoBehaviour
                 {
                     if (Settings.PlateColorByRank.Value)
                     {
-                        if (player != null) PlateColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                        if (player != null) PlateColor = ShowSocialRank ? VRCPlayer.Method_Public_Static_Color_APIUser_0(player.field_Private_APIUser_0) : VRCPlayer.field_Internal_Static_Color_4;
                     }
                     else
                     {
@@ -767,7 +827,7 @@ public class OldNameplate : MonoBehaviour
                 {
                     if (Settings.NameColorByRank.Value)
                     {
-                        if (player != null) NameColor = VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0);
+                        if (player != null) NameColor = ShowSocialRank ? VRCPlayer.Method_Public_Static_Color_APIUser_0(player.prop_APIUser_0) : VRCPlayer.field_Internal_Static_Color_4;
                     }
                     else
                     {
