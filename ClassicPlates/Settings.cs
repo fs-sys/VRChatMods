@@ -37,14 +37,12 @@ internal static class Settings
         ShowMaster = melonPreferencesCategory.CreateEntry("_showmaster", true, "Master Icon");
         ShowQuest = melonPreferencesCategory.CreateEntry("_showquest", true, "Quest Icon");
         
-        
-        //TODO: Rainbow Plates
-        //RainbowNameplates = melonPreferences_Category.CreateEntry("RainbowNameplates", false, "All Nameplates Rainbow");
-
-        //TODO: Rainbow Plates for Friends
-        //RainbowNameplatesFriendsOnly = melonPreferences_Category.CreateEntry("RainbowNameplatesFriendsOnly", false, "Rainbow Friends Only\n(requires All Rainbow to be on)");
+        RainbowPlates = melonPreferencesCategory.CreateEntry("_rainbowPlates", false, "owo","Hidden Rainbows~", true);
+        RainbowFriends = melonPreferencesCategory.CreateEntry("_rainbowFriends", false, "fren", "Fren only rainbows~", true);
+        RainbowDelay = melonPreferencesCategory.CreateEntry("_rainbowSpeed", .5f, "owodelay", "Delay between rainbow colors", true);
 
         StatusMode = VRC.NameplateManager.field_Public_Static_StatusMode_0;
+        NameplateMode = VRC.NameplateManager.field_Private_Static_NameplateMode_0;
     }
 
 
@@ -77,6 +75,10 @@ internal static class Settings
     public static MelonPreferences_Entry<bool>? ShowFallback;
     public static MelonPreferences_Entry<bool>? ShowMaster;
     public static MelonPreferences_Entry<bool>? ShowQuest;
+    
+    public static MelonPreferences_Entry<bool>? RainbowPlates;
+    public static MelonPreferences_Entry<bool>? RainbowFriends;
+    public static MelonPreferences_Entry<float>? RainbowDelay;
 
     private static VRC.NameplateManager.StatusMode _statusMode;
     private static VRC.NameplateManager.NameplateMode _nameplateMode;

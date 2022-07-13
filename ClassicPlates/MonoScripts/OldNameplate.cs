@@ -6,6 +6,7 @@ using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.UI;
 using VRC;
+using VRC.Core;
 using VRC.SDKBase.Validation.Performance;
 using static ClassicPlates.AssetManager;
 using static VRCAvatarManager;
@@ -266,12 +267,20 @@ public class OldNameplate : MonoBehaviour
         get => _plateColor;
         set
         {
+            if (Settings.RainbowPlates == null || Settings.RainbowFriends == null) { return; }
+                
             _plateColor = value;
 
+            if (Settings.RainbowPlates.Value | (Settings.RainbowFriends.Value && IsFriend))
+            {
+                return;
+            }
+
             if (_mainPlate != null) _mainPlate.color = _plateColor;
-            if (_vipPlate != null) _vipPlate.color = _plateColor;
-            if (_afkPlate != null) _afkPlate.color = _plateColor;
-            if (_userPlate != null) _userPlate.color = _plateColor;
+                if (_vipPlate != null) _vipPlate.color = _plateColor;
+                if (_afkPlate != null) _afkPlate.color = _plateColor;
+                if (_userPlate != null) _userPlate.color = _plateColor;
+            
         }
     }
 
@@ -588,6 +597,7 @@ public class OldNameplate : MonoBehaviour
 
         MelonCoroutines.Start(SpeechManagement());
         MelonCoroutines.Start(PlateManagement());
+        MelonCoroutines.Start(Rainbow());
 
         ApplySettings();
     }
@@ -676,6 +686,40 @@ public class OldNameplate : MonoBehaviour
         // ReSharper disable once IteratorNeverReturns
     }
 
+    [HideFromIl2Cpp]
+    private IEnumerator Rainbow()
+    {
+        while (true)
+        {
+            if (Settings.RainbowFriends != null && Settings.RainbowPlates != null &&
+                Settings.RainbowPlates.Value | (Settings.RainbowFriends.Value && IsFriend) && Nameplate != null &&
+                Nameplate.active && player != null)
+            {
+                if (_mainPlate != null && _mainPlate.gameObject.active)
+                {
+                    _mainPlate.color = Color.Lerp(_mainPlate.color, Color.red, Time.deltaTime * 2);
+                }
+
+                if (_afkPlate != null && _afkPlate.gameObject.active)
+                {
+                    _afkPlate.color = Color.Lerp(_afkPlate.color, Color.red, Time.deltaTime * 2);
+                }
+
+                if (_vipPlate != null && _vipPlate.gameObject.active)
+                {
+                    _vipPlate.color = Color.Lerp(_vipPlate.color, Color.red, Time.deltaTime * 2);
+                }
+            }
+
+            if (Settings.RainbowDelay != null)
+            {
+                yield return new WaitForSeconds(Settings.RainbowDelay.Value);
+            }
+           
+        }
+        // ReSharper disable once IteratorNeverReturns
+    }
+    
     public void Update()
     {
         transform.LookAt(2f * transform.position - _camera!.transform.position);
