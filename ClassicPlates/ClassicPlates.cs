@@ -9,12 +9,6 @@ using VRC;
 [assembly: MelonOptionalDependencies("UIExpansionKit")]
 namespace ClassicPlates;
 
-//TODO: Add Nameplates onto Cameras
-//TODO: Add AFK Detection
-//TODO: Setting Presets
-//TODO: Nameplate Stats Compatibility
-//TODO: TW/ReMod/BTK Compatibility
-//Maybe: Hook into OnSocialRank change
 public class ClassicPlates : MelonMod {
     private static readonly MelonLogger.Instance Logger = new("ClassicNameplates");
 

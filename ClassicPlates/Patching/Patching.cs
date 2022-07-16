@@ -97,8 +97,7 @@ internal static class Patching
 
         if (_SetStatusMode != null && _OnStatusModeUpdate != null)
             _instance.Patch(_SetStatusMode, null, new HarmonyMethod(_OnStatusModeUpdate));
-
-        //TODO: Add Avatar Loading Bar
+        
         // if(_LoadingBarProgress != null && _OnAvatarDownloadProgress != null)
         //      _LoadingBarProgress.ForEach(info => _instance.Patch(info, null,new HarmonyMethod(_OnAvatarDownloadProgress)));
 
