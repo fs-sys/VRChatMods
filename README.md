@@ -1,3 +1,12 @@
+# Important:  
+```
+My mods will not be moving to the EAC update of VRChat unless there is a push from the VRCMG.  
+If a legacy VRChat community is formed out of the ashes here, I will support and update my mods for that, however, I'm going to take this as a chance for a break.  
+  
+It's been fun, thank you for supporting my mods, whether they managed to get verified or not
+```
+
+
 # Released Mods
 ### If you would like me to add anything, please send me a message on discord or submit an issue request.
 
@@ -39,7 +48,7 @@ A modification to bring back the beloved nameplates of 2018 while remaining comp
 # Planned Mods
 ### There is no ETA for these mods
 
-## NSFW Enforcer (WIP)
+## NSFW Enforcer (On Hold)
 NSFW Enforcer is a detector for NSFW avatars (Through tags or NSFW objects), adding safety options per world and rank.  
 *The mod also may include the ability to flag NSFW avatars that have not flagged themselves as such*
 
@@ -50,7 +59,7 @@ This version will utilize a different method of replacement that may be even mor
 > Will probably have to take over Boothing in order to release, even recoding from scratch
 
 
-## World Map
+## World Map (On Hold)
 Adds an interactable map into the game, either attached to your hand, on your hud, or evn *possibly* as a spawnable table.
 ### Planned Features
 - Spawnable Map Table  
@@ -59,18 +68,18 @@ Adds an interactable map into the game, either attached to your hand, on your hu
 - Player Locator  
 
 
-## Custom Emojis
+## Custom Emojis (On Hold)
 A mod to allow the modification of the VRChat Emotes would let the user replace the emojis with custom images.
 ***This mod would not be able to add new emojis, only replace existing ones.***
 
 
-## Better Trust (Collaborating With [Zen-VR](https://github.com/Zen-VR))
+## Better Trust (Collaborating With [Zen-VR](https://github.com/Zen-VR)) (On Hold)
 Better Trust is a total overhaul for the VRChat Safety/Trust system, replacing it with a localized database for trust management.  
 This mod will allow users to specify what they consider is appropriate for trust based on the hours they spend with specific people or deprecate some ranks entirely.
 > VRCX Synchronization on first load, or first instance of VRCX running
 
 
-## VRCMMO
+## VRCMMO (On Hold)
 A large-scale addition to VRChat is an RPG-style leveling system for the platform.  
 Interact with other users, explore the multiverse, or stare at mirrors and you will gain points for every activity.
 ### Planned Features
@@ -83,7 +92,7 @@ Interact with other users, explore the multiverse, or stare at mirrors and you w
   ***Welcome back to Runescape***
 
 
-## VRCModManager (Collaborating With [Davi](https://github.com/d-magit))
+## VRCModManager (Collaborating With [Davi](https://github.com/d-magit)) (On Hold)
 > Awaiting MelonLoader .Net 6 Update
 
 A base library for interacting with the game, allowing mods to be loaded, updated, and even unloaded without having to close the game.   
